@@ -823,6 +823,7 @@ const QUESTIONS = [
 ];
 
 const SESSION_LENGTH = 10;
+const MODULE_LABELS = { FI:"FI", MM:"MM", SD:"SD", HR:"HR", AB:"ABAP" };
 
 const state = {
   currentModule: "ALL",
@@ -945,7 +946,7 @@ function renderQuestion(){
   const moduleCode = { FI:"F", MM:"M", SD:"S", HR:"H", AB:"A" }[q.module];
   els.tcodeId.textContent = `SAPTRV-${moduleCode}${String(idx + 1).padStart(3,'0')}`;
   els.progressText.textContent = `· ${idx + 1}/${state.queue.length}`;
-  els.modTag.textContent = q.module;
+  els.modTag.textContent = MODULE_LABELS[q.module] || q.module;
   els.modTag.className = `mod-tag ${q.module}`;
   els.questionText.textContent = q.q;
 
@@ -1032,7 +1033,7 @@ function showResults(){
   else if(pct >= 40) title = 'Vas por buen camino';
   else if(total > 0) title = 'Toca repasar conceptos';
   els.resultsTitle.textContent = title;
-  els.resultsModTag.textContent = state.currentModule === 'ALL' ? 'Todos' : state.currentModule;
+  els.resultsModTag.textContent = state.currentModule === 'ALL' ? 'Todos' : (MODULE_LABELS[state.currentModule] || state.currentModule);
   els.resultsModTag.className = `mod-tag results-mod-tag ${state.currentModule}`;
 
   els.questionView.style.display = 'none';
