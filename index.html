@@ -25,6 +25,7 @@
     --mm: #6C9A5C;
     --sd: #6C8EBF;
     --hr: #B15E9E;
+    --ab: #4FB0A5;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
@@ -114,6 +115,7 @@
   .pill[data-mod="MM"].active{ background: var(--mm); }
   .pill[data-mod="SD"].active{ background: var(--sd); }
   .pill[data-mod="HR"].active{ background: var(--hr); }
+  .pill[data-mod="AB"].active{ background: var(--ab); }
 
   /* ---------- Card ---------- */
   .stage{
@@ -161,6 +163,7 @@
   .mod-tag.MM{ background: var(--mm); }
   .mod-tag.SD{ background: var(--sd); }
   .mod-tag.HR{ background: var(--hr); }
+  .mod-tag.AB{ background: var(--ab); }
   .mod-tag.ALL{ background: var(--paper); }
   .results-mod-tag{
     display:inline-block;
@@ -447,6 +450,7 @@
             <button class="pill" data-mod="MM">MM</button>
             <button class="pill" data-mod="SD">SD</button>
             <button class="pill" data-mod="HR">HR</button>
+            <button class="pill" data-mod="AB">ABAP</button>
           </div>
           <p class="landing-desc">10 preguntas tipo test aleatorias del módulo elegido. Podrás moverte hacia adelante y hacia atrás, pero no cambiar de módulo hasta terminar la sesión.</p>
           <button class="btn-replay" id="startBtn">Empezar sesión →</button>
@@ -754,6 +758,68 @@ const QUESTIONS = [
   { module:"HR", q:"¿Qué infotipo recoge los datos de la relación del empleado con la Seguridad Social española (régimen, NAF)?",
     options:["IT0061","IT0009","IT0008","IT0002"], correct:0,
     note:"IT0061 (Datos de Seguridad Social) es específico de la solución de nómina española y alimenta la cotización y el Sistema RED." },
+
+  // ---- AB (ABAP) ----
+  { module:"AB", q:"¿Qué sentencia Open SQL se usa para leer una única fila de una tabla de base de datos en ABAP clásico?",
+    options:["SELECT SINGLE","SELECT *","READ TABLE","LOOP AT"], correct:0,
+    note:"SELECT SINGLE devuelve como máximo un registro. READ TABLE opera sobre tablas internas, no directamente contra la base de datos." },
+  { module:"AB", q:"¿Qué instrucción evita el clásico «SELECT dentro de un LOOP» y su golpe de rendimiento?",
+    options:["FOR ALL ENTRIES","SELECT SINGLE","SORT","APPEND"], correct:0,
+    note:"FOR ALL ENTRIES lanza una única sentencia parametrizada con los valores de una tabla interna, en vez de un SELECT por cada vuelta del bucle." },
+  { module:"AB", q:"En ABAP Orientado a Objetos, ¿qué palabra clave define que una clase no puede ser heredada?",
+    options:["FINAL","PRIVATE","ABSTRACT","STATIC"], correct:0,
+    note:"FINAL cierra la jerarquía de herencia en ese punto. ABSTRACT, al contrario, obliga a que la clase se herede para poder instanciarse." },
+  { module:"AB", q:"¿Qué tipo de clase ABAP no puede instanciarse directamente y está pensada para ser heredada?",
+    options:["Clase abstracta (ABSTRACT)","Clase final (FINAL)","Clase local","Interfaz"], correct:0,
+    note:"Una clase ABSTRACT define comportamiento común que las subclases concretas completan o sobrescriben." },
+  { module:"AB", q:"¿Qué tipo de dato interno ABAP es el más eficiente para búsquedas por clave y se comporta como un array asociativo?",
+    options:["Tabla hash (HASHED TABLE)","Tabla estándar (STANDARD TABLE)","Tabla ordenada (SORTED TABLE)","Estructura simple"], correct:0,
+    note:"La tabla hash da acceso por clave en tiempo prácticamente constante, a costa de no admitir acceso eficiente por índice." },
+  { module:"AB", q:"¿Qué addition de Open SQL permite bloquear las filas leídas hasta el siguiente COMMIT o ROLLBACK?",
+    options:["FOR UPDATE","FOR ALL ENTRIES","APPENDING","INTO TABLE"], correct:0,
+    note:"SELECT ... FOR UPDATE reserva las filas seleccionadas para evitar que otro proceso las modifique mientras dura la transacción lógica." },
+  { module:"AB", q:"¿Qué instrucción se usa para definir y activar un «lock object» generado en el Dictionary antes de bloquear un registro?",
+    options:["ENQUEUE_ / DEQUEUE_","LOCK TABLE","SELECT FOR UPDATE","AUTHORITY-CHECK"], correct:0,
+    note:"Los módulos de función generados ENQUEUE_<nombre> y DEQUEUE_<nombre> gestionan el bloqueo lógico definido en un objeto de bloqueo SE11." },
+  { module:"AB", q:"¿Qué instrucción se usa en ABAP para verificar si el usuario tiene autorización sobre un objeto concreto?",
+    options:["AUTHORITY-CHECK","CALL FUNCTION","CHECK","ENQUEUE"], correct:0,
+    note:"AUTHORITY-CHECK contrasta los valores de un objeto de autorización contra el perfil del usuario conectado (SU21/PFCG)." },
+  { module:"AB", q:"¿Qué es una BAdI (Business Add-In)?",
+    options:["Un punto de extensión basado en interfaces que permite añadir lógica sin modificar el código estándar","Una transacción de configuración de autorizaciones","Un tipo de tabla transparente","Un objeto de bloqueo"], correct:0,
+    note:"Las BAdI son la evolución de los user-exits clásicos: implementan una interfaz definida por SAP en puntos concretos del estándar." },
+  { module:"AB", q:"¿Qué diferencia principal hay entre un «user-exit» clásico y una BAdI?",
+    options:["El user-exit se basa en includes/módulos de función predefinidos, la BAdI en programación orientada a objetos e interfaces","El user-exit es exclusivo de S/4HANA","La BAdI no permite añadir código propio","No hay ninguna diferencia real"], correct:0,
+    note:"Los user-exits (SMOD/CMOD) son mecanismos más antiguos y rígidos; las BAdI son más flexibles y permiten múltiples implementaciones activas/filtradas." },
+  { module:"AB", q:"¿Para qué sirve principalmente una CDS View en el desarrollo ABAP moderno?",
+    options:["Definir una vista semántica sobre datos de base de datos, reutilizable en Open SQL, análisis y Fiori/RAP","Sustituir por completo a las tablas transparentes","Definir autorizaciones de usuario","Crear un lock object"], correct:0,
+    note:"Una CDS View traslada lógica (joins, cálculos, anotaciones semánticas) a la capa de base de datos y es la base habitual del RAP." },
+  { module:"AB", q:"En el modelo RAP (RESTful ABAP Programming), ¿qué elemento define el comportamiento (lógica de negocio, validaciones, determinaciones) de una entidad de negocio?",
+    options:["El Behavior Definition / Behavior Implementation","La CDS View de proyección","El Service Binding","El Lock Object clásico"], correct:0,
+    note:"La Behavior Definition declara qué operaciones admite la entidad y sus reglas; la Behavior Implementation (clase ABAP) contiene la lógica real." },
+  { module:"AB", q:"En RAP, ¿qué objeto expone finalmente un servicio de negocio como API OData consumible por un Fiori Element?",
+    options:["El Service Binding","La CDS View básica (interface view)","El Lock Object","El Behavior Pool"], correct:0,
+    note:"El Service Binding activa el servicio (OData V2/V4) sobre un Service Definition, que a su vez agrupa las CDS de proyección expuestas." },
+  { module:"AB", q:"¿Qué es un «método de determinación» (determination) dentro de una Behavior Definition RAP?",
+    options:["Lógica que se ejecuta automáticamente para calcular o rellenar valores durante una operación (p.ej. al crear)","Una validación que bloquea la grabación si falla","Una acción invocable manualmente desde la UI","Un tipo de autorización"], correct:0,
+    note:"A diferencia de una validation (que solo comprueba y puede rechazar), una determination modifica datos automáticamente, como calcular un total." },
+  { module:"AB", q:"¿Qué instrucción ABAP moderna permite declarar variables inline en el punto donde se usan por primera vez?",
+    options:["DATA(...)","TYPES","FIELD-SYMBOLS","CONSTANTS"], correct:0,
+    note:"DATA(lv_var) = ... infiere el tipo automáticamente a partir de la expresión, evitando declaraciones separadas al estilo ABAP clásico." },
+  { module:"AB", q:"¿Qué construcción de ABAP permite escribir una expresión condicional tipo «operador ternario»?",
+    options:["COND","SWITCH","VALUE","REDUCE"], correct:0,
+    note:"COND #( WHEN ... THEN ... ELSE ... ) evalúa condiciones y devuelve un valor en una sola expresión, sin necesidad de IF/ENDIF por separado." },
+  { module:"AB", q:"¿Qué construcción de expresiones ABAP se usa típicamente para acumular o transformar el contenido de una tabla interna en una sola expresión?",
+    options:["REDUCE","COND","SWITCH","VALUE"], correct:0,
+    note:"REDUCE permite iterar y acumular un resultado (p.ej. sumar importes) sin un LOOP explícito, en estilo funcional." },
+  { module:"AB", q:"¿Qué transacción del sistema se usa para analizar el rendimiento y los tiempos de ejecución de un programa ABAP (SQL Trace incluido)?",
+    options:["ST05","SE80","SE11","SM30"], correct:0,
+    note:"ST05 (Trace de rendimiento) permite capturar las sentencias SQL reales lanzadas por un programa y detectar accesos costosos o innecesarios." },
+  { module:"AB", q:"¿Qué herramienta se usa para depurar paso a paso un programa ABAP en ejecución?",
+    options:["El depurador ABAP (transacción /h o breakpoints)","SE11","SM30","SU01"], correct:0,
+    note:"El comando /h en la barra de comandos activa el modo debug en la siguiente pantalla; también se puede fijar un breakpoint en el código." },
+  { module:"AB", q:"¿Qué instrucción se usa para invocar un módulo de función o una clase de forma asíncrona, sin esperar su finalización?",
+    options:["CALL FUNCTION ... STARTING NEW TASK","CALL FUNCTION ... IN BACKGROUND TASK","SUBMIT ... VIA JOB","CALL METHOD ... ASYNCHRONOUS"], correct:0,
+    note:"STARTING NEW TASK ejecuta el módulo de función de forma asíncrona (RFC), típico para paralelizar procesos que no dependen entre sí." },
 ];
 
 const SESSION_LENGTH = 10;
@@ -876,7 +942,7 @@ function renderQuestion(){
   state.currentQ = q;
   const savedAnswer = state.answers[idx];
 
-  const moduleCode = { FI:"F", MM:"M", SD:"S", HR:"H" }[q.module];
+  const moduleCode = { FI:"F", MM:"M", SD:"S", HR:"H", AB:"A" }[q.module];
   els.tcodeId.textContent = `SAPTRV-${moduleCode}${String(idx + 1).padStart(3,'0')}`;
   els.progressText.textContent = `· ${idx + 1}/${state.queue.length}`;
   els.modTag.textContent = q.module;
