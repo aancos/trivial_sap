@@ -103,11 +103,7 @@
     transition: all 0.15s ease;
   }
   .pill:hover{ border-color: var(--border-strong); color: var(--paper); }
-  .modules.locked .pill{
-    opacity: 0.4;
-    cursor: not-allowed;
-    pointer-events: none;
-  }
+  .landing-view .pill{ font-size: 13px; padding: 9px 16px; }
   .pill.active{
     color: var(--ink);
     font-weight:600;
@@ -296,8 +292,28 @@
     margin-left: 4px;
   }
 
+  /* ---------- Landing view ---------- */
+  .landing-view{ text-align:center; padding: 18px 0 6px; }
+  .landing-view .modules{
+    justify-content:center;
+    margin: 16px 0 20px;
+  }
+  .landing-desc{
+    max-width: 400px;
+    margin: 0 auto 26px;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
   /* ---------- Results view ---------- */
   .results-view{ display:none; text-align:center; padding: 8px 0 4px; }
+  .results-actions{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    flex-wrap: wrap;
+  }
   .results-eyebrow{
     font-family:'IBM Plex Mono', monospace;
     font-size: 11px;
@@ -399,18 +415,11 @@
       <div class="streak" id="streakLabel">RACHA · 0</div>
     </div>
     <h1>Preguntas de <span>sentido común</span> SAP</h1>
-    <div class="modules" id="modules">
-      <button class="pill active" data-mod="ALL">Todos</button>
-      <button class="pill" data-mod="FI">FI</button>
-      <button class="pill" data-mod="MM">MM</button>
-      <button class="pill" data-mod="SD">SD</button>
-      <button class="pill" data-mod="HR">HR</button>
-    </div>
   </div>
 
   <div class="stage">
     <div class="card" id="exportCard">
-      <div class="tcode-bar">
+      <div class="tcode-bar" id="tcodeBar" style="display:none">
         <div class="tcode-left">
           <span class="status-dot" id="statusDot"></span>
           <span class="tcode-text">T-CODE: <b id="tcodeId">SAPTRV-000</b></span>
@@ -419,7 +428,19 @@
         <span class="mod-tag" id="modTag">FI</span>
       </div>
       <div class="card-body">
-        <div id="questionView">
+        <div id="landingView" class="landing-view">
+          <div class="results-eyebrow">Elige tu módulo</div>
+          <div class="modules" id="landingModules">
+            <button class="pill active" data-mod="ALL">Todos</button>
+            <button class="pill" data-mod="FI">FI</button>
+            <button class="pill" data-mod="MM">MM</button>
+            <button class="pill" data-mod="SD">SD</button>
+            <button class="pill" data-mod="HR">HR</button>
+          </div>
+          <p class="landing-desc">10 preguntas tipo test aleatorias del módulo elegido. Podrás moverte hacia adelante y hacia atrás, pero no cambiar de módulo hasta terminar la sesión.</p>
+          <button class="btn-replay" id="startBtn">Empezar sesión →</button>
+        </div>
+        <div id="questionView" style="display:none">
           <p class="question" id="questionText">Cargando pregunta…</p>
           <div class="options" id="optionsList"></div>
           <div class="note" id="noteBox">
@@ -447,14 +468,17 @@
               <div class="stat-label">Mejor racha</div>
             </div>
           </div>
-          <button class="btn-replay" id="replayBtn">↺ Jugar de nuevo</button>
+          <div class="results-actions">
+            <button class="btn-replay" id="replayBtn">↺ Jugar de nuevo</button>
+            <button class="btn btn-ghost" id="changeModuleBtn">Cambiar módulo</button>
+          </div>
         </div>
       </div>
-      <div class="card-footer">
+      <div class="card-footer" id="cardFooter" style="display:none">
         <span class="brand-mini">Consultor en Sentido Común</span>
         <div class="actions">
           <button class="btn btn-ghost" id="downloadBtn" title="Descargar tarjeta como imagen">⬇ Descargar</button>
-          <button class="btn btn-ghost" id="prevBtn" title="Pregunta anterior" disabled>← Anterior</button>
+          <button class="btn btn-ghost" id="prevBtn" title="Pregunta anterior">← Anterior</button>
           <button class="btn btn-primary" id="nextBtn" disabled>Siguiente →</button>
         </div>
       </div>
@@ -727,7 +751,11 @@ const state = {
 };
 
 const els = {
-  modules: document.getElementById('modules'),
+  landingView: document.getElementById('landingView'),
+  landingModules: document.getElementById('landingModules'),
+  startBtn: document.getElementById('startBtn'),
+  tcodeBar: document.getElementById('tcodeBar'),
+  cardFooter: document.getElementById('cardFooter'),
   tcodeId: document.getElementById('tcodeId'),
   modTag: document.getElementById('modTag'),
   statusDot: document.getElementById('statusDot'),
@@ -750,6 +778,7 @@ const els = {
   statWrong: document.getElementById('statWrong'),
   statBestStreak: document.getElementById('statBestStreak'),
   replayBtn: document.getElementById('replayBtn'),
+  changeModuleBtn: document.getElementById('changeModuleBtn'),
 };
 
 function filteredPool(){
@@ -787,6 +816,14 @@ function bestStreakSoFar(){
   return best;
 }
 
+function showLanding(){
+  els.landingView.style.display = 'block';
+  els.questionView.style.display = 'none';
+  els.resultsView.style.display = 'none';
+  els.tcodeBar.style.display = 'none';
+  els.cardFooter.style.display = 'none';
+}
+
 function startSession(){
   const pool = shuffle(filteredPool());
   state.queue = pool.slice(0, Math.min(SESSION_LENGTH, pool.length));
@@ -794,11 +831,13 @@ function startSession(){
   state.queueIndex = 0;
 
   els.streakLabel.textContent = `RACHA · 0`;
+  els.landingView.style.display = 'none';
   els.resultsView.style.display = 'none';
   els.questionView.style.display = 'block';
+  els.tcodeBar.style.display = 'flex';
+  els.cardFooter.style.display = 'flex';
   els.nextBtn.style.display = 'inline-flex';
   els.prevBtn.style.display = 'inline-flex';
-  els.modules.classList.add('locked');
 
   renderQuestion();
 }
@@ -818,7 +857,14 @@ function renderQuestion(){
 
   const isLast = idx === state.queue.length - 1;
   els.nextBtn.textContent = isLast ? 'Finalizar ✓' : 'Siguiente →';
-  els.prevBtn.style.display = idx === 0 ? 'none' : 'inline-flex';
+
+  // prevBtn: hidden on the first question, otherwise visible AND enabled
+  if(idx === 0){
+    els.prevBtn.style.display = 'none';
+  } else {
+    els.prevBtn.style.display = 'inline-flex';
+    els.prevBtn.disabled = false;
+  }
 
   els.optionsList.innerHTML = '';
   const letters = ['A','B','C','D'];
@@ -895,25 +941,24 @@ function showResults(){
   els.resultsView.style.display = 'block';
   els.nextBtn.style.display = 'none';
   els.prevBtn.style.display = 'none';
-  els.modules.classList.remove('locked');
   els.statusDot.className = 'status-dot';
   els.progressText.textContent = '· resultado';
 }
 
-function setActiveModulePill(mod){
-  Array.from(els.modules.children).forEach(p => {
+function setActiveLandingPill(mod){
+  Array.from(els.landingModules.children).forEach(p => {
     p.classList.toggle('active', p.dataset.mod === mod);
   });
 }
 
-els.modules.addEventListener('click', (e) => {
-  if(els.modules.classList.contains('locked')) return;
+els.landingModules.addEventListener('click', (e) => {
   const btn = e.target.closest('.pill');
   if(!btn) return;
   state.currentModule = btn.dataset.mod;
-  setActiveModulePill(state.currentModule);
-  startSession();
+  setActiveLandingPill(state.currentModule);
 });
+
+els.startBtn.addEventListener('click', startSession);
 
 els.prevBtn.addEventListener('click', () => {
   if(state.queueIndex === 0) return;
@@ -932,6 +977,7 @@ els.nextBtn.addEventListener('click', () => {
 });
 
 els.replayBtn.addEventListener('click', startSession);
+els.changeModuleBtn.addEventListener('click', showLanding);
 
 els.downloadBtn.addEventListener('click', () => {
   els.downloadBtn.textContent = '⬇ Generando…';
@@ -947,7 +993,8 @@ els.downloadBtn.addEventListener('click', () => {
   });
 });
 
-startSession();
+showLanding();
+
 </script>
 </body>
 </html>
