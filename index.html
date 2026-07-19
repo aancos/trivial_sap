@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SAP // TRIVIA — Consultor en Sentido Común</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  :root{
+    --ink: #0F1826;
+    --ink-2: #172239;
+    --ink-3: #1E2C48;
+    --paper: #EDE6D6;
+    --paper-dim: #C9C2B2;
+    --amber: #E8A33D;
+    --amber-dim: #C97F1E;
+    --green: #6C9A5C;
+    --red: #C1543E;
+    --muted: #7E8AA3;
+    --border: rgba(237,230,214,0.10);
+    --border-strong: rgba(237,230,214,0.22);
+    --fi: #E8A33D;
+    --mm: #6C9A5C;
+    --sd: #6C8EBF;
+    --hr: #B15E9E;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1200px 600px at 15% -10%, rgba(232,163,61,0.07), transparent 60%),
+      radial-gradient(900px 500px at 100% 0%, rgba(108,142,191,0.06), transparent 60%),
+      var(--ink);
+    color: var(--paper);
+    font-family: 'IBM Plex Sans', sans-serif;
+    min-height: 100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding: 28px 16px 60px;
+  }
+
+  /* ---------- Header ---------- */
+  .app-header{
+    width:100%;
+    max-width: 620px;
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+    margin-bottom: 26px;
+  }
+  .brand-row{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:12px;
+  }
+  .brand{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+  .brand b{ color: var(--paper); font-weight:600; }
+  .streak{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--amber);
+    background: rgba(232,163,61,0.08);
+    border: 1px solid rgba(232,163,61,0.25);
+    padding: 5px 10px;
+    border-radius: 6px;
+    white-space: nowrap;
+  }
+  h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size: clamp(26px, 5vw, 34px);
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  h1 span{ color: var(--amber); }
+
+  .modules{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  .pill{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    background: var(--ink-2);
+    border: 1px solid var(--border);
+    padding: 7px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .pill:hover{ border-color: var(--border-strong); color: var(--paper); }
+  .pill.active{
+    color: var(--ink);
+    font-weight:600;
+    border-color: transparent;
+  }
+  .pill[data-mod="ALL"].active{ background: var(--paper); }
+  .pill[data-mod="FI"].active{ background: var(--fi); }
+  .pill[data-mod="MM"].active{ background: var(--mm); }
+  .pill[data-mod="SD"].active{ background: var(--sd); }
+  .pill[data-mod="HR"].active{ background: var(--hr); }
+
+  /* ---------- Card ---------- */
+  .stage{
+    width:100%;
+    max-width: 620px;
+  }
+  .card{
+    background: var(--ink-2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.55);
+  }
+  .tcode-bar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding: 12px 18px;
+    background: var(--ink-3);
+    border-bottom: 1px solid var(--border);
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--paper-dim);
+  }
+  .tcode-left{ display:flex; align-items:center; gap:10px; }
+  .status-dot{
+    width:8px; height:8px; border-radius:50%;
+    background: var(--muted);
+    box-shadow: 0 0 0 3px rgba(126,138,163,0.15);
+    transition: all 0.2s ease;
+  }
+  .status-dot.correct{ background: var(--green); box-shadow: 0 0 0 3px rgba(108,154,92,0.2); }
+  .status-dot.wrong{ background: var(--red); box-shadow: 0 0 0 3px rgba(193,84,62,0.2); }
+  .tcode-text b{ color: var(--paper); font-weight:600; }
+  .mod-tag{
+    font-weight:600;
+    padding: 3px 9px;
+    border-radius: 5px;
+    color: var(--ink);
+    font-size: 11px;
+  }
+  .mod-tag.FI{ background: var(--fi); }
+  .mod-tag.MM{ background: var(--mm); }
+  .mod-tag.SD{ background: var(--sd); }
+  .mod-tag.HR{ background: var(--hr); }
+
+  .card-body{
+    padding: 30px 26px 26px;
+  }
+  .question{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(19px, 3.4vw, 24px);
+    line-height:1.35;
+    margin: 0 0 24px;
+    min-height: 96px;
+  }
+  .options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .option{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    text-align:left;
+    background: var(--ink-3);
+    border: 1px solid var(--border);
+    color: var(--paper);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size: 15px;
+    padding: 13px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .option-letter{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    width: 20px;
+    flex-shrink:0;
+  }
+  .option:hover:not(.locked){
+    border-color: var(--amber);
+    transform: translateY(-1px);
+  }
+  .option.locked{ cursor: default; }
+  .option.correct{
+    background: rgba(108,154,92,0.14);
+    border-color: var(--green);
+  }
+  .option.correct .option-letter{ color: var(--green); }
+  .option.wrong{
+    background: rgba(193,84,62,0.14);
+    border-color: var(--red);
+  }
+  .option.wrong .option-letter{ color: var(--red); }
+  .option.dim{ opacity: 0.45; }
+
+  .note{
+    margin-top: 18px;
+    padding: 14px 16px;
+    border-left: 3px solid var(--amber);
+    background: rgba(232,163,61,0.06);
+    border-radius: 0 10px 10px 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--paper-dim);
+    display:none;
+  }
+  .note b{
+    font-family:'IBM Plex Mono', monospace;
+    color: var(--amber);
+    font-weight:600;
+    display:block;
+    margin-bottom: 6px;
+    font-size: 12px;
+    letter-spacing: 0.05em;
+  }
+
+  .card-footer{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    padding: 16px 26px 24px;
+  }
+  .brand-mini{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+  }
+  .actions{ display:flex; gap:10px; }
+  .btn{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-weight:600;
+    font-size: 14px;
+    padding: 11px 18px;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .btn-primary{
+    background: var(--amber);
+    color: var(--ink);
+  }
+  .btn-primary:hover{ background: var(--amber-dim); }
+  .btn-primary:disabled{ opacity:0.35; cursor:not-allowed; }
+  .btn-ghost{
+    background: transparent;
+    border-color: var(--border-strong);
+    color: var(--paper-dim);
+  }
+  .btn-ghost:hover{ border-color: var(--paper-dim); color: var(--paper); }
+
+  .hint{
+    text-align:center;
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 18px;
+    letter-spacing: 0.04em;
+  }
+
+  .progress-text{
+    color: var(--muted);
+    margin-left: 4px;
+  }
+
+  /* ---------- Results view ---------- */
+  .results-view{ display:none; text-align:center; padding: 8px 0 4px; }
+  .results-eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+  .score-ring{
+    width: 128px; height: 128px;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    display:flex; align-items:center; justify-content:center;
+    background: conic-gradient(var(--amber) calc(var(--pct) * 1%), var(--ink-3) 0);
+    position: relative;
+  }
+  .score-ring::before{
+    content:'';
+    position:absolute;
+    inset: 8px;
+    border-radius: 50%;
+    background: var(--ink-2);
+  }
+  .score-ring-value{
+    position: relative;
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size: 26px;
+    color: var(--paper);
+  }
+  .score-ring-value small{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-weight:400;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+  .results-title{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size: 21px;
+    margin: 0 0 22px;
+  }
+  .stat-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+  .stat-box{
+    background: var(--ink-3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 8px;
+  }
+  .stat-num{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size: 22px;
+  }
+  .stat-num.ok{ color: var(--green); }
+  .stat-num.ko{ color: var(--red); }
+  .stat-num.streak{ color: var(--amber); }
+  .stat-label{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .btn-replay{
+    background: var(--amber);
+    color: var(--ink);
+    border: none;
+    font-family:'IBM Plex Sans', sans-serif;
+    font-weight:600;
+    font-size: 14px;
+    padding: 12px 22px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  .btn-replay:hover{ background: var(--amber-dim); }
+
+  @media (max-width: 480px){
+    .card-footer{ flex-direction:column; align-items:stretch; }
+    .actions{ justify-content: stretch; }
+    .actions .btn{ flex:1; justify-content:center; }
+    .brand-mini{ text-align:center; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="app-header">
+    <div class="brand-row">
+      <div class="brand"><b>SAP // TRIVIA</b> · aancos.com</div>
+      <div class="streak" id="streakLabel">RACHA · 0</div>
+    </div>
+    <h1>Preguntas de <span>sentido común</span> SAP</h1>
+    <div class="modules" id="modules">
+      <button class="pill active" data-mod="ALL">Todos</button>
+      <button class="pill" data-mod="FI">FI</button>
+      <button class="pill" data-mod="MM">MM</button>
+      <button class="pill" data-mod="SD">SD</button>
+      <button class="pill" data-mod="HR">HR</button>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="card" id="exportCard">
+      <div class="tcode-bar">
+        <div class="tcode-left">
+          <span class="status-dot" id="statusDot"></span>
+          <span class="tcode-text">T-CODE: <b id="tcodeId">SAPTRV-000</b></span>
+          <span class="progress-text" id="progressText"></span>
+        </div>
+        <span class="mod-tag" id="modTag">FI</span>
+      </div>
+      <div class="card-body">
+        <div id="questionView">
+          <p class="question" id="questionText">Cargando pregunta…</p>
+          <div class="options" id="optionsList"></div>
+          <div class="note" id="noteBox">
+            <b>// nota del consultor</b>
+            <span id="noteText"></span>
+          </div>
+        </div>
+        <div id="resultsView" class="results-view">
+          <div class="results-eyebrow">Resultado de la sesión</div>
+          <div class="score-ring" id="scoreRing" style="--pct:0">
+            <div class="score-ring-value" id="scoreRingValue">0%<small>acierto</small></div>
+          </div>
+          <p class="results-title" id="resultsTitle">¡Sesión completada!</p>
+          <div class="stat-grid">
+            <div class="stat-box">
+              <div class="stat-num ok" id="statCorrect">0</div>
+              <div class="stat-label">Aciertos</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-num ko" id="statWrong">0</div>
+              <div class="stat-label">Fallos</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-num streak" id="statBestStreak">0</div>
+              <div class="stat-label">Mejor racha</div>
+            </div>
+          </div>
+          <button class="btn-replay" id="replayBtn">↺ Jugar de nuevo</button>
+        </div>
+      </div>
+      <div class="card-footer">
+        <span class="brand-mini">Consultor en Sentido Común</span>
+        <div class="actions">
+          <button class="btn btn-ghost" id="downloadBtn" title="Descargar tarjeta como imagen">⬇ Descargar</button>
+          <button class="btn btn-ghost" id="prevBtn" title="Pregunta anterior" disabled>← Anterior</button>
+          <button class="btn btn-primary" id="nextBtn" disabled>Siguiente →</button>
+        </div>
+      </div>
+    </div>
+    <div class="hint">Sesión de 10 preguntas · puedes navegar adelante y atrás · pensada para compartir en LinkedIn</div>
+  </div>
+
+<script>
+const QUESTIONS = [
+  // ---- FI ----
+  { module:"FI", q:"¿Qué transacción se usa habitualmente para contabilizar un documento de diario en FI (GUI clásico)?",
+    options:["FB50","MM01","VA01","PA30"], correct:0,
+    note:"FB50 es la transacción estándar para contabilización de documentos en Contabilidad Financiera. Su equivalente en Fiori es la app «Contabilizar documento de contabilidad general»." },
+  { module:"FI", q:"¿Qué tabla estándar almacena la cabecera de los documentos contables en FI?",
+    options:["MARA","BSEG","BKPF","LFA1"], correct:2,
+    note:"BKPF guarda la cabecera del documento (sociedad, fecha, ejercicio). Las posiciones individuales viven en BSEG." },
+  { module:"FI", q:"¿Qué indicador determina que una cuenta de mayor necesite gestión de partidas abiertas?",
+    options:["Clase de cuenta","Grupo de cuentas","Gestión de partidas abiertas (Open Item Mgmt)","Moneda de la sociedad"], correct:2,
+    note:"Es un campo propio del maestro de cuenta de mayor. Sin él activado, no se pueden compensar partidas como pagos contra facturas." },
+  { module:"FI", q:"¿Cuál es el nivel organizativo más alto sobre el que se estructura la Contabilidad Financiera en SAP?",
+    options:["División","Área de negocio","Grupo de cuentas","Sociedad (Company Code)"], correct:3,
+    note:"La sociedad es la unidad legal e independiente a efectos contables; todo balance y cuenta de resultados se genera a ese nivel." },
+  { module:"FI", q:"¿Para qué sirve principalmente la «cuenta de enlace» (reconciliation account) en una cuenta de deudor o acreedor?",
+    options:["Fijar el tipo de cambio","Vincular la contabilidad auxiliar con la cuenta de mayor correspondiente","Definir el plan de pagos","Bloquear la cuenta para compras"], correct:1,
+    note:"Cada movimiento en un deudor o acreedor se refleja automáticamente en su cuenta de enlace de mayor, sin contabilización manual." },
+
+  { module:"FI", q:"¿Qué transacción se usa para visualizar un documento contable ya contabilizado?",
+    options:["FB03","FB50","FB60","FB70"], correct:0,
+    note:"FB03 permite consultar un documento sin posibilidad de modificarlo, a diferencia de FB50 que es para contabilizar." },
+  { module:"FI", q:"¿Qué transacción se usa para contabilizar una factura de proveedor SIN referencia a un pedido de compras?",
+    options:["FB60","FB70","MIRO","ME21N"], correct:0,
+    note:"FB60 registra facturas de proveedor directas. MIRO se usa cuando hay pedido de compras detrás (verificación de factura)." },
+  { module:"FI", q:"¿Qué transacción se usa para contabilizar una factura de cliente SIN referencia a un pedido de ventas?",
+    options:["FB70","FB60","VF01","F-22"], correct:0,
+    note:"FB70 registra facturas de cliente directas en FI. VF01 pertenece al flujo estándar de facturación de SD." },
+  { module:"FI", q:"¿Para qué sirve principalmente la variante de ejercicio fiscal (fiscal year variant)?",
+    options:["Definir el número y las fechas de los periodos contables","Fijar el tipo de cambio diario","Bloquear cuentas de mayor","Definir el idioma de los documentos"], correct:0,
+    note:"La variante de ejercicio determina cuántos periodos tiene el ejercicio y sus fechas de inicio y fin, incluidos los periodos especiales." },
+  { module:"FI", q:"¿Qué objeto controla si una posición de documento contabiliza en el debe o en el haber (p.ej. 40/50)?",
+    options:["La clave de contabilización (posting key)","La clase de documento","El grupo de tolerancia","La clave de IVA"], correct:0,
+    note:"La clave de contabilización define debe/haber y el tipo de cuenta (mayor, deudor, acreedor, activo) al introducir la posición." },
+  { module:"FI", q:"¿Qué transacción muestra las partidas individuales (abiertas o compensadas) de un cliente?",
+    options:["FBL5N","FBL1N","FBL3N","FB03"], correct:0,
+    note:"FBL5N es para clientes, FBL1N para proveedores y FBL3N para cuentas de mayor: mismo patrón, distinto tipo de cuenta." },
+  { module:"FI", q:"¿Qué transacción muestra las partidas individuales de un proveedor?",
+    options:["FBL1N","FBL5N","FBL3N","MIRO"], correct:0,
+    note:"FBL1N lista partidas abiertas y compensadas de acreedores, clave para seguimiento de pagos pendientes." },
+  { module:"FI", q:"¿Qué transacción muestra las partidas individuales de una cuenta de mayor?",
+    options:["FBL3N","FBL1N","FBL5N","FS10N"], correct:0,
+    note:"FBL3N detalla movimiento a movimiento de una cuenta de mayor, complementaria a FS10N que muestra saldos por periodo." },
+  { module:"FI", q:"¿Qué controla el «grupo de tolerancia» asignado a un usuario o a una cuenta en FI?",
+    options:["Los límites de diferencias de pago/compensación aceptables automáticamente","El idioma del documento","La moneda de la sociedad","El ejercicio fiscal"], correct:0,
+    note:"Define, por ejemplo, hasta qué importe una diferencia de pago se puede compensar sin intervención manual adicional." },
+  { module:"FI", q:"¿Qué combinación determina principalmente el método y periodo de depreciación de un activo fijo en FI-AA?",
+    options:["La clave de amortización y el área de valoración","La clase de activo únicamente","El centro de coste asignado","El grupo de sociedades"], correct:0,
+    note:"La clave de amortización define el método de cálculo; el área de valoración permite llevar varias «vistas» (fiscal, contable) del mismo activo." },
+  { module:"FI", q:"¿Qué transacción se usa habitualmente para abrir y cerrar periodos contables?",
+    options:["OB52","FB50","OBYA","FS00"], correct:0,
+    note:"OB52 gestiona los rangos de periodos abiertos por tipo de cuenta y sociedad, controlando en qué fechas se puede contabilizar." },
+  { module:"FI", q:"¿Cuál es el propósito de llevar «ledgers» paralelos en la Nueva Contabilidad General (p.ej. uno local y otro para normativa de grupo)?",
+    options:["Contabilizar simultáneamente bajo distintos principios contables (p.ej. local frente a IFRS)","Duplicar el ejercicio fiscal","Separar sociedades por país","Evitar el cierre mensual"], correct:0,
+    note:"Cada ledger puede tener su propia valoración (p.ej. amortización, provisiones) manteniendo un único documento origen." },
+  { module:"FI", q:"En la Nueva Contabilidad General (New GL), ¿qué transacción muestra los saldos de una cuenta de mayor por ledger?",
+    options:["FAGLB03","FB50","MIRO","VA01"], correct:0,
+    note:"FAGLB03 es el equivalente en New GL a la clásica FS10N, mostrando saldos periodo a periodo por ledger contable." },
+  { module:"FI", q:"¿Qué objeto agrupa varias sociedades a efectos de consolidación de cuentas?",
+    options:["El grupo de sociedades (Company)","El área de negocio","La división","El centro de beneficio"], correct:0,
+    note:"«Company» es el objeto de consolidación que puede agrupar varias sociedades (Company Codes) bajo un mismo grupo empresarial." },
+  { module:"FI", q:"¿Qué campo identifica de forma única un documento contable dentro de una sociedad y un ejercicio?",
+    options:["El número de documento","La clase de documento","El texto de cabecera","La referencia externa"], correct:0,
+    note:"La clave técnica de un documento FI es sociedad + número de documento + ejercicio; la clase de documento solo agrupa tipos." },
+
+  // ---- MM ----
+  { module:"MM", q:"¿Qué transacción se utiliza para crear un pedido de compras?",
+    options:["ME21N","MIGO","MIRO","MM02"], correct:0,
+    note:"ME21N crea el pedido. MIGO registra la entrada de mercancía y MIRO la verificación de factura: el flujo clásico de compras." },
+  { module:"MM", q:"¿Qué transacción registra la entrada de mercancía contra un pedido de compras?",
+    options:["ME21N","VL01N","MIGO","VA01"], correct:2,
+    note:"MIGO es el movimiento de mercancías. VL01N pertenece al flujo de ventas (entregas de salida), no de compras." },
+  { module:"MM", q:"¿Qué tabla estándar contiene los datos maestros generales de un material?",
+    options:["MARA","EKKO","MBEW","LFA1"], correct:0,
+    note:"MARA guarda los datos independientes de centro. MARC es por centro, MBEW por valoración y EKKO son cabeceras de pedido." },
+  { module:"MM", q:"¿Qué determina finalmente en qué cuenta de mayor se contabiliza el consumo o la entrada de un material?",
+    options:["El grupo de compras","La determinación automática de cuentas (vía grupo de valoración)","El texto breve del material","El proveedor asignado"], correct:1,
+    note:"La determinación automática de cuentas cruza clase de movimiento, grupo de valoración y clave de contabilización para decidir la cuenta." },
+  { module:"MM", q:"¿Qué caracteriza a un «contrato marco» (Outline Agreement) frente a un pedido normal?",
+    options:["Es un acuerdo a largo plazo sin cantidades ni fechas de entrega fijas","Solo puede usarse para servicios","Genera automáticamente la factura","No requiere proveedor"], correct:0,
+    note:"Los contratos (y los planes de entrega) fijan condiciones a largo plazo; los pedidos concretos se liberan después contra ese acuerdo." },
+
+  { module:"MM", q:"¿Qué transacción verifica y contabiliza la factura de un proveedor contra un pedido de compras?",
+    options:["MIRO","MIGO","FB60","ME21N"], correct:0,
+    note:"MIRO cierra el ciclo de compras: pedido (ME21N) → entrada de mercancía (MIGO) → verificación de factura (MIRO)." },
+  { module:"MM", q:"¿Qué tabla contiene los datos del material a nivel de centro (plant)?",
+    options:["MARC","MARA","MBEW","MVKE"], correct:0,
+    note:"MARC guarda datos dependientes de centro (p.ej. planificación, compras); MARA guarda los datos generales del material." },
+  { module:"MM", q:"¿Qué tabla almacena los datos de valoración del material (precio, cuenta de valoración)?",
+    options:["MBEW","MARC","MARA","MSEG"], correct:0,
+    note:"MBEW guarda el precio estándar o medio y el área de valoración; MSEG registra los movimientos de mercancía." },
+  { module:"MM", q:"¿Qué transacción muestra el histórico de movimientos de material?",
+    options:["MB51","MIGO","MMBE","ME23N"], correct:0,
+    note:"MB51 lista los documentos de movimiento de material aplicando filtros por material, centro o clase de movimiento." },
+  { module:"MM", q:"¿Qué transacción muestra el stock disponible de un material por centro y almacén?",
+    options:["MMBE","MB51","MIGO","MM03"], correct:0,
+    note:"MMBE (Stock Overview) resume existencias por centro, almacén y lote de un vistazo." },
+  { module:"MM", q:"¿Qué indicador del maestro de materiales determina si un material requiere inspección de calidad al recibirlo?",
+    options:["El indicador de control de calidad en la vista de gestión de calidad","El grupo de compras","El texto breve del material","El grupo de valoración"], correct:0,
+    note:"La vista de Calidad del maestro de materiales activa el control de inspección para movimientos como la entrada de mercancía." },
+  { module:"MM", q:"¿Qué campo de una posición de pedido vincula la compra directamente a un centro de coste u orden interna (sin generar stock)?",
+    options:["La categoría de imputación (Account Assignment Category)","El grupo de compras","La clase de pedido","El grupo de materiales"], correct:0,
+    note:"La categoría de imputación (p.ej. «K» para centro de coste) indica que el gasto se imputa directamente en vez de entrar en almacén." },
+  { module:"MM", q:"¿Qué determina principalmente el «tipo de posición» (item category) en un pedido de compras?",
+    options:["El tratamiento del flujo del documento (si requiere entrada de mercancía, es servicio, subcontratación, etc.)","El proveedor asignado","El grupo de compras","La moneda del pedido"], correct:0,
+    note:"El tipo de posición distingue, por ejemplo, una compra estándar de una de servicios o de subcontratación." },
+  { module:"MM", q:"¿Qué transacción se usa para crear una solicitud de pedido (requisición de compra)?",
+    options:["ME51N","ME21N","ME01","ME11"], correct:0,
+    note:"ME51N crea la requisición interna; tras su liberación puede convertirse en un pedido de compras con ME21N." },
+  { module:"MM", q:"¿Qué transacción crea un registro de información de compras (purchasing info record)?",
+    options:["ME11","ME01","ME21N","MK01"], correct:0,
+    note:"El registro de información guarda condiciones históricas de precio y plazos entre un material y un proveedor concreto." },
+  { module:"MM", q:"En S/4HANA, ¿qué transacción unificada se usa para crear y mantener proveedores y clientes como Business Partner?",
+    options:["BP","XK01","FD01","MK01"], correct:0,
+    note:"BP sustituye a las transacciones clásicas (XK01, FD01, MK01) unificando el maestro de socios de negocio." },
+  { module:"MM", q:"¿Qué mecanismo obliga a que un pedido de compras de importe elevado requiera aprobación antes de enviarse al proveedor?",
+    options:["La estrategia de liberación (Release Strategy)","El grupo de compras","La clase de documento","El tipo de posición"], correct:0,
+    note:"La estrategia de liberación define los niveles de aprobación según criterios como importe, centro o grupo de compras." },
+  { module:"MM", q:"¿Qué clase de movimiento se usa habitualmente para una entrada de mercancía contra un pedido de compras?",
+    options:["101","201","261","601"], correct:0,
+    note:"La clase de movimiento 101 es la entrada de mercancía estándar contra pedido; existen variantes según el proceso logístico." },
+  { module:"MM", q:"¿Qué clase de movimiento se usa habitualmente para una salida de mercancía a consumo (centro de coste)?",
+    options:["201","101","261","601"], correct:0,
+    note:"La 201 registra el consumo directo contra centro de coste, distinta de la 261 (consumo contra orden de fabricación)." },
+  { module:"MM", q:"¿Qué es el MRP (Planificación de necesidades de material) en MM?",
+    options:["Un proceso que calcula automáticamente qué, cuánto y cuándo comprar o producir según demanda y stock","Un informe de valoración contable de inventario","Un tipo de contrato marco","Una clase de movimiento de mercancías"], correct:0,
+    note:"El MRP compara necesidades (pedidos, previsión) contra stock disponible y genera propuestas de pedido o fabricación." },
+
+  // ---- SD ----
+  { module:"SD", q:"¿Qué transacción se usa para crear un pedido de ventas estándar?",
+    options:["VA01","VL01N","VF01","VK11"], correct:0,
+    note:"VA01 crea el pedido. VL01N genera la entrega y VF01 la factura: el flujo clásico order-to-cash." },
+  { module:"SD", q:"En el flujo estándar de ventas, ¿qué documento se genera normalmente ANTES de la factura?",
+    options:["La entrega (Delivery)","El pedido de compras","La oferta técnica","El extracto bancario"], correct:0,
+    note:"El flujo típico es: pedido de ventas → entrega → factura. La entrega gestiona el picking y la expedición de mercancía." },
+  { module:"SD", q:"¿Qué determina principalmente el precio de una posición en un pedido de ventas?",
+    options:["El grupo de compras","El esquema de determinación de precios (pricing procedure)","El texto de posición","El almacén de origen"], correct:1,
+    note:"El esquema de precios combina condiciones (precio base, descuentos, impuestos) según cliente, material y área de ventas." },
+  { module:"SD", q:"¿Qué unidad organizativa agrupa las áreas de ventas dentro de la estructura de SD?",
+    options:["Centro","Sociedad","Organización de ventas (Sales Organization)","Grupo de compras"], correct:2,
+    note:"La organización de ventas, junto a canal de distribución y sector, define el área de ventas donde se procesan los pedidos." },
+  { module:"SD", q:"¿Para qué se usa la combinación de grupo de esquema de cliente y grupo de esquema de documento en SD?",
+    options:["Para determinar el esquema de precios aplicable","Para bloquear al cliente","Para definir el idioma de la factura","Para asignar el centro de expedición"], correct:0,
+    note:"Esa combinación, junto a la organización de ventas, es la clave que el sistema usa para encontrar el esquema de precios correcto." },
+
+  { module:"SD", q:"¿Qué transacción crea la entrega de salida contra un pedido de ventas?",
+    options:["VL01N","VA01","VF01","VL02N"], correct:0,
+    note:"VL01N genera la entrega para el picking y la expedición; VL02N se usa después para modificarla (p.ej. confirmar picking)." },
+  { module:"SD", q:"¿Qué transacción crea la factura de cliente en el flujo estándar de SD?",
+    options:["VF01","VF02","VF03","FB70"], correct:0,
+    note:"VF01 crea la factura a partir de la entrega o el pedido; VF02 la modifica y VF03 solo permite visualizarla." },
+  { module:"SD", q:"¿Qué tabla contiene los datos de ventas del material a nivel de organización de ventas?",
+    options:["MVKE","MARA","MARC","VBAK"], correct:0,
+    note:"MVKE guarda datos como el grupo de materiales para estadística de ventas por organización y canal de distribución." },
+  { module:"SD", q:"¿Qué tabla almacena la cabecera de los pedidos de ventas?",
+    options:["VBAK","VBAP","VBEP","LIKP"], correct:0,
+    note:"VBAK guarda datos generales del pedido; VBAP guarda sus posiciones y VBEP las fechas y cantidades programadas." },
+  { module:"SD", q:"¿Qué tabla almacena las posiciones de los pedidos de ventas?",
+    options:["VBAP","VBAK","VBRK","LIPS"], correct:0,
+    note:"VBAP contiene una fila por posición del pedido (material, cantidad, precio neto). VBRK/VBRP son de facturación." },
+  { module:"SD", q:"Junto con la organización de ventas y el sector, ¿qué unidad completa la definición del «área de ventas»?",
+    options:["El canal de distribución","El centro","El almacén","El grupo de compras"], correct:0,
+    note:"Área de ventas = organización de ventas + canal de distribución + sector: el nivel al que se procesan los pedidos." },
+  { module:"SD", q:"¿Qué controla el «esquema de copia» (copy control) entre dos documentos de ventas, p.ej. de pedido a entrega?",
+    options:["Cómo se transfieren cantidades y datos de un documento origen a un documento destino","El esquema de precios aplicable","El idioma de la factura","El almacén de expedición"], correct:0,
+    note:"El esquema de copia define, posición a posición, qué campos se heredan y con qué reglas al generar el documento siguiente." },
+  { module:"SD", q:"¿Qué transacción se usa para el mantenimiento de condiciones de precio (p.ej. precio de un material para un cliente)?",
+    options:["VK11","VA01","V/06","VK12"], correct:0,
+    note:"VK11 crea registros de condición; VK12 los modifica. V/06 es donde se configuran los tipos de condición, no sus valores." },
+  { module:"SD", q:"¿Qué documento gestiona formalmente una reclamación de cliente que termina en un abono?",
+    options:["La solicitud de nota de abono (Credit Memo Request)","El pedido estándar","La oferta","El contrato de valores"], correct:0,
+    note:"La solicitud de nota de abono pasa por su propio flujo de aprobación antes de generar la nota de abono final al cliente." },
+  { module:"SD", q:"¿Qué clase de documento de ventas representa una propuesta comercial que aún no es un pedido en firme?",
+    options:["La oferta (Quotation)","El pedido estándar","La entrega","El contrato de valores"], correct:0,
+    note:"La oferta vincula un compromiso de precio y condiciones durante un plazo de validez, sin comprometer stock como un pedido." },
+  { module:"SD", q:"¿Para qué sirve la verificación de disponibilidad (ATP) en un pedido de ventas?",
+    options:["Comprobar si hay suficiente stock o producción disponible para confirmar cantidad y fecha","Calcular el precio del material","Determinar el canal de distribución","Bloquear al cliente por riesgo de crédito"], correct:0,
+    note:"ATP (Available to Promise) cruza stock, entradas y salidas planificadas para proponer una fecha de entrega realista." },
+  { module:"SD", q:"¿Qué transacción permite listar y filtrar pedidos de ventas según distintos criterios?",
+    options:["VA05","VA01","VA02","VA03"], correct:0,
+    note:"VA05 es un listado masivo de pedidos; VA01/VA02/VA03 crean, modifican y visualizan un pedido individual." },
+  { module:"SD", q:"¿Dónde se definen el peso y el volumen que se usan para calcular la expedición de un material?",
+    options:["En los datos logísticos del maestro de materiales (vista de almacén/transporte)","En la organización de ventas","En el esquema de precios","En el grupo de compras"], correct:0,
+    note:"Peso bruto/neto y volumen viven en el maestro de materiales y alimentan la planificación de transporte y embalaje." },
+  { module:"SD", q:"¿Qué documento agrupa varias entregas para su transporte conjunto?",
+    options:["El transporte (Shipment)","La factura colectiva","El pedido marco","La solicitud de pedido"], correct:0,
+    note:"El documento de transporte consolida varias entregas que comparten ruta o medio de transporte para optimizar la expedición." },
+  { module:"SD", q:"¿Qué controla el «grupo de cuentas» (Account Group) al crear un maestro de cliente?",
+    options:["El rango de números y los campos disponibles u obligatorios del maestro","El esquema de precios del cliente","El canal de distribución por defecto","El almacén asignado"], correct:0,
+    note:"El grupo de cuentas distingue, por ejemplo, un cliente «solicitante» de uno «pagador», con distintos campos relevantes." },
+
+  // ---- HR ----
+  { module:"HR", q:"¿En qué infotipo se almacenan habitualmente los datos bancarios de un empleado?",
+    options:["IT0002","IT0009","IT0008","IT0000"], correct:1,
+    note:"IT0009 (Conexión bancaria) guarda IBAN y datos de pago. IT0008 es el infotipo de retribución básica, no de banco." },
+  { module:"HR", q:"¿Qué campo determina si un tipo de retribución cotiza a la Seguridad Social en la configuración de nómina española?",
+    options:["El grupo de cuentas","La clase de proceso (processing class)","El texto del tipo de retribución","El status de empleado"], correct:1,
+    note:"Las clases de proceso indican cómo se trata cada tipo de retribución en cada base de cálculo: SS, IRPF, etc." },
+  { module:"HR", q:"¿Cómo se llama la parte de HCM que gestiona la estructura de unidades organizativas y posiciones?",
+    options:["Gestión de organización (OM)","Gestión de personal (PA)","Gestión de tiempos (PT)","Gestión de nómina (PY)"], correct:0,
+    note:"OM modela el organigrama: unidades organizativas, puestos y posiciones, independientemente de quién los ocupe." },
+  { module:"HR", q:"¿En qué vista/tabla se configuran los tipos de retribución (wage types) permitidos y sus características?",
+    options:["V_512W_D","T001","MARA","BKPF"], correct:0,
+    note:"V_512W_D es la vista de características de los tipos de retribución por agrupación de tipo de personal y modificador." },
+  { module:"HR", q:"¿Qué agrupación de países (MOLGA) identifica a España en SAP HCM?",
+    options:["01","04","34","99"], correct:1,
+    note:"MOLGA 04 identifica la agrupación de país España, base de toda la configuración específica de nómina (esquemas, tablas T7ES...)." },
+  { module:"HR", q:"¿Qué infotipo almacena los datos de asignación organizativa del empleado (centro de coste, división, etc.)?",
+    options:["IT0001","IT0002","IT0008","IT0009"], correct:0,
+    note:"IT0001 (Asignación Organizativa) vincula al empleado con la estructura empresarial: sociedad, división, centro de coste." },
+  { module:"HR", q:"¿Qué infotipo almacena los datos personales básicos del empleado (nombre, fecha de nacimiento)?",
+    options:["IT0002","IT0001","IT0006","IT0009"], correct:0,
+    note:"IT0002 (Datos Personales) es uno de los infotipos obligatorios en cualquier alta de empleado." },
+  { module:"HR", q:"¿Qué infotipo almacena la retribución básica (salario) del empleado?",
+    options:["IT0008","IT0009","IT0014","IT0015"], correct:0,
+    note:"IT0008 (Retribución Básica / Basic Pay) es la base sobre la que se calculan muchos tipos de retribución en nómina." },
+  { module:"HR", q:"¿Qué infotipo se usa para retribuciones o deducciones fijas que se repiten periódicamente?",
+    options:["IT0014","IT0015","IT0008","IT0009"], correct:0,
+    note:"IT0014 (Percepciones/Deducciones Periódicas) mantiene importes recurrentes, distintos de la retribución básica de IT0008." },
+  { module:"HR", q:"¿Qué infotipo se usa para pagos o deducciones puntuales, de carácter no recurrente?",
+    options:["IT0015","IT0014","IT0008","IT0002"], correct:0,
+    note:"IT0015 (Percepciones/Deducciones Adicionales) registra importes de un único periodo, como un bonus puntual." },
+  { module:"HR", q:"¿Qué transacción se usa para el mantenimiento de infotipos de un empleado (crear, modificar)?",
+    options:["PA30","PA20","PA40","PP01"], correct:0,
+    note:"PA30 permite editar infotipos individuales; PA20 es su equivalente solo de visualización." },
+  { module:"HR", q:"¿Qué transacción se usa exclusivamente para VISUALIZAR los infotipos de un empleado, sin poder modificarlos?",
+    options:["PA20","PA30","PA40","PU01"], correct:0,
+    note:"PA20 comparte pantallas con PA30 pero bloquea la edición, útil para perfiles de solo consulta." },
+  { module:"HR", q:"¿Qué transacción se usa para ejecutar una medida de personal (p.ej. alta o cambio de puesto)?",
+    options:["PA40","PA30","PA20","PP02"], correct:0,
+    note:"PA40 (Acciones de Personal) encadena automáticamente los infotipos que corresponde actualizar en cada tipo de medida." },
+  { module:"HR", q:"¿Cómo se conoce al programa estándar que ejecuta los cálculos de una nómina en HCM?",
+    options:["Driver de nómina (payroll driver)","Esquema de organización","Infotipo de nómina","Área de nómina"], correct:0,
+    note:"El driver de nómina procesa el esquema de cálculo asignado y genera el clúster de resultados del periodo." },
+  { module:"HR", q:"¿Qué objeto agrupa a los empleados que se liquidan conjuntamente en el mismo ciclo de nómina?",
+    options:["El área de nómina (Payroll Area)","El área de personal","La subárea de personal","El grupo de nómina"], correct:0,
+    note:"El área de nómina determina, entre otras cosas, la periodicidad y las fechas de corte del ciclo de cálculo." },
+  { module:"HR", q:"Dentro del clúster de resultados de nómina, ¿qué tabla almacena los importes finales por cada tipo de retribución?",
+    options:["RT (Results Table)","BT","CRT","WPBP"], correct:0,
+    note:"La tabla RT recoge el resultado final de cada tipo de retribución tras aplicar todo el esquema de cálculo." },
+  { module:"HR", q:"¿Qué representa la tabla WPBP dentro del resultado de nómina?",
+    options:["Los datos maestros relevantes vigentes durante el periodo (centro de coste, área de nómina, etc.)","Los importes finales por tipo de retribución","El histórico de bajas médicas","Las cuotas a la Seguridad Social"], correct:0,
+    note:"WPBP (Work Center/Basic Pay) fragmenta el periodo cuando hay cambios organizativos o de retribución dentro del mismo mes." },
+  { module:"HR", q:"¿Qué transacción se usa para consultar el histórico de resultados de nómina de un empleado?",
+    options:["PC_PAYRESULT","PA30","PC00_M99_CALC","PU03"], correct:0,
+    note:"PC_PAYRESULT abre el clúster de resultados de un empleado y periodo concretos para su análisis." },
+  { module:"HR", q:"¿Qué agrupan el «área de personal» y la «subárea de personal» dentro de una sociedad en HCM?",
+    options:["Características legales y administrativas (convenio, calendario, agrupaciones de nómina)","El plan de cuentas contable","El esquema de precios de ventas","La estructura de materiales"], correct:0,
+    note:"Permiten diferenciar, por ejemplo, distintos centros de trabajo o convenios colectivos dentro de una misma sociedad." },
+  { module:"HR", q:"¿Qué infotipo recoge los datos de la relación del empleado con la Seguridad Social española (régimen, NAF)?",
+    options:["IT0061","IT0009","IT0008","IT0002"], correct:0,
+    note:"IT0061 (Datos de Seguridad Social) es específico de la solución de nómina española y alimenta la cotización y el Sistema RED." },
+];
+
+const SESSION_LENGTH = 10;
+
+const state = {
+  currentModule: "ALL",
+  queue: [],           // 10 fixed questions for this session
+  answers: [],          // parallel array: null or {selectedIdx, isCorrect}
+  queueIndex: 0,
+  currentQ: null,
+};
+
+const els = {
+  modules: document.getElementById('modules'),
+  tcodeId: document.getElementById('tcodeId'),
+  modTag: document.getElementById('modTag'),
+  statusDot: document.getElementById('statusDot'),
+  progressText: document.getElementById('progressText'),
+  questionView: document.getElementById('questionView'),
+  questionText: document.getElementById('questionText'),
+  optionsList: document.getElementById('optionsList'),
+  noteBox: document.getElementById('noteBox'),
+  noteText: document.getElementById('noteText'),
+  prevBtn: document.getElementById('prevBtn'),
+  nextBtn: document.getElementById('nextBtn'),
+  downloadBtn: document.getElementById('downloadBtn'),
+  streakLabel: document.getElementById('streakLabel'),
+  exportCard: document.getElementById('exportCard'),
+  resultsView: document.getElementById('resultsView'),
+  scoreRing: document.getElementById('scoreRing'),
+  scoreRingValue: document.getElementById('scoreRingValue'),
+  resultsTitle: document.getElementById('resultsTitle'),
+  statCorrect: document.getElementById('statCorrect'),
+  statWrong: document.getElementById('statWrong'),
+  statBestStreak: document.getElementById('statBestStreak'),
+  replayBtn: document.getElementById('replayBtn'),
+};
+
+function filteredPool(){
+  if(state.currentModule === "ALL") return QUESTIONS;
+  return QUESTIONS.filter(q => q.module === state.currentModule);
+}
+
+function shuffle(arr){
+  const a = [...arr];
+  for(let i = a.length - 1; i > 0; i--){
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function currentRunningStreak(){
+  // longest streak of consecutive correct answers ending at the latest answered question, in order
+  let streak = 0;
+  for(let i = 0; i < state.answers.length; i++){
+    const a = state.answers[i];
+    if(!a) break;
+    streak = a.isCorrect ? streak + 1 : 0;
+  }
+  return streak;
+}
+
+function bestStreakSoFar(){
+  let best = 0, running = 0;
+  state.answers.forEach(a => {
+    if(!a){ running = 0; return; }
+    running = a.isCorrect ? running + 1 : 0;
+    best = Math.max(best, running);
+  });
+  return best;
+}
+
+function startSession(){
+  const pool = shuffle(filteredPool());
+  state.queue = pool.slice(0, Math.min(SESSION_LENGTH, pool.length));
+  state.answers = new Array(state.queue.length).fill(null);
+  state.queueIndex = 0;
+
+  els.streakLabel.textContent = `RACHA · 0`;
+  els.resultsView.style.display = 'none';
+  els.questionView.style.display = 'block';
+  els.nextBtn.style.display = 'inline-flex';
+  els.prevBtn.style.display = 'inline-flex';
+
+  renderQuestion();
+}
+
+function renderQuestion(){
+  const idx = state.queueIndex;
+  const q = state.queue[idx];
+  state.currentQ = q;
+  const savedAnswer = state.answers[idx];
+
+  const moduleCode = { FI:"F", MM:"M", SD:"S", HR:"H" }[q.module];
+  els.tcodeId.textContent = `SAPTRV-${moduleCode}${String(idx + 1).padStart(3,'0')}`;
+  els.progressText.textContent = `· ${idx + 1}/${state.queue.length}`;
+  els.modTag.textContent = q.module;
+  els.modTag.className = `mod-tag ${q.module}`;
+  els.questionText.textContent = q.q;
+
+  const isLast = idx === state.queue.length - 1;
+  els.nextBtn.textContent = isLast ? 'Finalizar ✓' : 'Siguiente →';
+  els.prevBtn.disabled = idx === 0;
+
+  els.optionsList.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option';
+    btn.innerHTML = `<span class="option-letter">${letters[i]}</span><span>${opt}</span>`;
+    btn.addEventListener('click', () => handleAnswer(i));
+    els.optionsList.appendChild(btn);
+  });
+
+  if(savedAnswer){
+    lockOptions(q, savedAnswer.selectedIdx);
+    els.statusDot.className = `status-dot ${savedAnswer.isCorrect ? 'correct' : 'wrong'}`;
+    els.noteText.textContent = q.note;
+    els.noteBox.style.display = 'block';
+    els.nextBtn.disabled = false;
+  } else {
+    els.statusDot.className = 'status-dot';
+    els.noteBox.style.display = 'none';
+    els.nextBtn.disabled = true;
+  }
+
+  els.streakLabel.textContent = `RACHA · ${currentRunningStreak()}`;
+}
+
+function lockOptions(q, selectedIdx){
+  const allBtns = Array.from(els.optionsList.children);
+  allBtns.forEach((b, i) => {
+    b.classList.add('locked');
+    if(i === q.correct) b.classList.add('correct');
+    if(i === selectedIdx && i !== q.correct) b.classList.add('wrong');
+    if(i !== q.correct && i !== selectedIdx) b.classList.add('dim');
+  });
+}
+
+function handleAnswer(selectedIdx){
+  const idx = state.queueIndex;
+  if(state.answers[idx]) return; // already answered, ignore further clicks
+  const q = state.currentQ;
+  const isCorrect = selectedIdx === q.correct;
+  state.answers[idx] = { selectedIdx, isCorrect };
+
+  lockOptions(q, selectedIdx);
+  els.statusDot.className = `status-dot ${isCorrect ? 'correct' : 'wrong'}`;
+  els.streakLabel.textContent = `RACHA · ${currentRunningStreak()}`;
+
+  els.noteText.textContent = q.note;
+  els.noteBox.style.display = 'block';
+  els.nextBtn.disabled = false;
+}
+
+function showResults(){
+  const correctCount = state.answers.filter(a => a && a.isCorrect).length;
+  const wrongCount = state.answers.filter(a => a && !a.isCorrect).length;
+  const total = correctCount + wrongCount;
+  const pct = total > 0 ? Math.round((correctCount / total) * 100) : 0;
+  const best = bestStreakSoFar();
+
+  els.scoreRing.style.setProperty('--pct', pct);
+  els.scoreRingValue.innerHTML = `${pct}%<small>acierto</small>`;
+  els.statCorrect.textContent = correctCount;
+  els.statWrong.textContent = wrongCount;
+  els.statBestStreak.textContent = best;
+
+  let title = 'Sesión completada';
+  if(pct === 100 && total > 0) title = 'Pleno de sentido común';
+  else if(pct >= 70) title = 'Buen dominio del terreno';
+  else if(pct >= 40) title = 'Vas por buen camino';
+  else if(total > 0) title = 'Toca repasar conceptos';
+  els.resultsTitle.textContent = `${title} · ${total}/${state.queue.length} preguntas`;
+
+  els.questionView.style.display = 'none';
+  els.resultsView.style.display = 'block';
+  els.nextBtn.style.display = 'none';
+  els.prevBtn.style.display = 'none';
+  els.statusDot.className = 'status-dot';
+  els.progressText.textContent = '· resultado';
+}
+
+function setActiveModulePill(mod){
+  Array.from(els.modules.children).forEach(p => {
+    p.classList.toggle('active', p.dataset.mod === mod);
+  });
+}
+
+els.modules.addEventListener('click', (e) => {
+  const btn = e.target.closest('.pill');
+  if(!btn) return;
+  state.currentModule = btn.dataset.mod;
+  setActiveModulePill(state.currentModule);
+  startSession();
+});
+
+els.prevBtn.addEventListener('click', () => {
+  if(state.queueIndex === 0) return;
+  state.queueIndex--;
+  renderQuestion();
+});
+
+els.nextBtn.addEventListener('click', () => {
+  const isLast = state.queueIndex === state.queue.length - 1;
+  if(isLast){
+    showResults();
+  } else {
+    state.queueIndex++;
+    renderQuestion();
+  }
+});
+
+els.replayBtn.addEventListener('click', startSession);
+
+els.downloadBtn.addEventListener('click', () => {
+  els.downloadBtn.textContent = '⬇ Generando…';
+  html2canvas(els.exportCard, { backgroundColor: '#172239', scale: 2 }).then(canvas => {
+    const link = document.createElement('a');
+    const suffix = els.resultsView.style.display === 'block' ? 'resultado' : state.currentQ.module.toLowerCase();
+    link.download = `sap-trivia-${suffix}-${Date.now()}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+    els.downloadBtn.textContent = '⬇ Descargar';
+  }).catch(() => {
+    els.downloadBtn.textContent = '⬇ Descargar';
+  });
+});
+
+startSession();
+</script>
+</body>
+</html>
