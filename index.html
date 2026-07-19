@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SAP // TRIVIA — Consultor en Sentido Común</title>
+<title>SAP // TRIVIAL — Consultor en Sentido Común</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" onerror="window.__html2canvasFailed = true;"></script>
 <style>
   :root{
     --ink: #0F1826;
@@ -161,6 +161,13 @@
   .mod-tag.MM{ background: var(--mm); }
   .mod-tag.SD{ background: var(--sd); }
   .mod-tag.HR{ background: var(--hr); }
+  .mod-tag.ALL{ background: var(--paper); }
+  .results-mod-tag{
+    display:inline-block;
+    margin-bottom: 14px;
+    font-size: 12px;
+    padding: 4px 12px;
+  }
 
   .card-body{
     padding: 30px 26px 26px;
@@ -360,7 +367,7 @@
   }
   .stat-grid{
     display:grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(4, 1fr);
     gap: 10px;
     margin-bottom: 22px;
   }
@@ -368,16 +375,17 @@
     background: var(--ink-3);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: 14px 8px;
+    padding: 14px 6px;
   }
   .stat-num{
     font-family:'Space Grotesk', sans-serif;
     font-weight:700;
-    font-size: 22px;
+    font-size: 20px;
   }
   .stat-num.ok{ color: var(--green); }
   .stat-num.ko{ color: var(--red); }
   .stat-num.streak{ color: var(--amber); }
+  .stat-num.time{ color: var(--sd); font-family:'IBM Plex Mono', monospace; font-size: 18px; }
   .stat-label{
     font-family:'IBM Plex Mono', monospace;
     font-size: 10px;
@@ -385,6 +393,9 @@
     color: var(--muted);
     text-transform: uppercase;
     margin-top: 4px;
+  }
+  @media (max-width: 420px){
+    .stat-grid{ grid-template-columns: repeat(2, 1fr); }
   }
   .btn-replay{
     background: var(--amber);
@@ -411,7 +422,7 @@
 
   <div class="app-header">
     <div class="brand-row">
-      <div class="brand"><b>SAP // TRIVIA</b> · aancos.com</div>
+      <div class="brand"><b>SAP // TRIVIAL</b> · aancos.com</div>
       <div class="streak" id="streakLabel">RACHA · 0</div>
     </div>
     <h1>Preguntas de <span>sentido común</span> SAP</h1>
@@ -450,6 +461,7 @@
         </div>
         <div id="resultsView" class="results-view">
           <div class="results-eyebrow">Resultado de la sesión</div>
+          <span class="mod-tag results-mod-tag" id="resultsModTag">Todos</span>
           <div class="score-ring" id="scoreRing" style="--pct:0">
             <div class="score-ring-value" id="scoreRingValue">0%<small>acierto</small></div>
           </div>
@@ -467,6 +479,10 @@
               <div class="stat-num streak" id="statBestStreak">0</div>
               <div class="stat-label">Mejor racha</div>
             </div>
+            <div class="stat-box">
+              <div class="stat-num time" id="statTime">00:00</div>
+              <div class="stat-label">Tiempo</div>
+            </div>
           </div>
           <div class="results-actions">
             <button class="btn-replay" id="replayBtn">↺ Jugar de nuevo</button>
@@ -483,7 +499,7 @@
         </div>
       </div>
     </div>
-    <div class="hint">Sesión de 10 preguntas · puedes navegar adelante y atrás · pensada para compartir en LinkedIn</div>
+    <div class="hint">Sesión de 10 preguntas · ponte a prueba · diseñado con Claude</div>
   </div>
 
 <script>
@@ -748,6 +764,7 @@ const state = {
   answers: [],          // parallel array: null or {selectedIdx, isCorrect}
   queueIndex: 0,
   currentQ: null,
+  startTime: null,
 };
 
 const els = {
@@ -774,9 +791,11 @@ const els = {
   scoreRing: document.getElementById('scoreRing'),
   scoreRingValue: document.getElementById('scoreRingValue'),
   resultsTitle: document.getElementById('resultsTitle'),
+  resultsModTag: document.getElementById('resultsModTag'),
   statCorrect: document.getElementById('statCorrect'),
   statWrong: document.getElementById('statWrong'),
   statBestStreak: document.getElementById('statBestStreak'),
+  statTime: document.getElementById('statTime'),
   replayBtn: document.getElementById('replayBtn'),
   changeModuleBtn: document.getElementById('changeModuleBtn'),
 };
@@ -824,11 +843,19 @@ function showLanding(){
   els.cardFooter.style.display = 'none';
 }
 
+function formatElapsed(ms){
+  const totalSeconds = Math.max(0, Math.round(ms / 1000));
+  const minutes = Math.floor(totalSeconds / 60);
+  const seconds = totalSeconds % 60;
+  return `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+}
+
 function startSession(){
   const pool = shuffle(filteredPool());
   state.queue = pool.slice(0, Math.min(SESSION_LENGTH, pool.length));
   state.answers = new Array(state.queue.length).fill(null);
   state.queueIndex = 0;
+  state.startTime = Date.now();
 
   els.streakLabel.textContent = `RACHA · 0`;
   els.landingView.style.display = 'none';
@@ -838,6 +865,7 @@ function startSession(){
   els.cardFooter.style.display = 'flex';
   els.nextBtn.style.display = 'inline-flex';
   els.prevBtn.style.display = 'inline-flex';
+  els.downloadBtn.style.display = 'none';
 
   renderQuestion();
 }
@@ -923,24 +951,29 @@ function showResults(){
   const total = correctCount + wrongCount;
   const pct = total > 0 ? Math.round((correctCount / total) * 100) : 0;
   const best = bestStreakSoFar();
+  const elapsedMs = state.startTime ? Date.now() - state.startTime : 0;
 
   els.scoreRing.style.setProperty('--pct', pct);
   els.scoreRingValue.innerHTML = `${pct}%<small>acierto</small>`;
   els.statCorrect.textContent = correctCount;
   els.statWrong.textContent = wrongCount;
   els.statBestStreak.textContent = best;
+  els.statTime.textContent = formatElapsed(elapsedMs);
 
   let title = 'Sesión completada';
   if(pct === 100 && total > 0) title = 'Pleno de sentido común';
   else if(pct >= 70) title = 'Buen dominio del terreno';
   else if(pct >= 40) title = 'Vas por buen camino';
   else if(total > 0) title = 'Toca repasar conceptos';
-  els.resultsTitle.textContent = `${title} · ${total}/${state.queue.length} preguntas`;
+  els.resultsTitle.textContent = title;
+  els.resultsModTag.textContent = state.currentModule === 'ALL' ? 'Todos' : state.currentModule;
+  els.resultsModTag.className = `mod-tag results-mod-tag ${state.currentModule}`;
 
   els.questionView.style.display = 'none';
   els.resultsView.style.display = 'block';
   els.nextBtn.style.display = 'none';
   els.prevBtn.style.display = 'none';
+  els.downloadBtn.style.display = 'inline-flex';
   els.statusDot.className = 'status-dot';
   els.progressText.textContent = '· resultado';
 }
@@ -980,17 +1013,76 @@ els.replayBtn.addEventListener('click', startSession);
 els.changeModuleBtn.addEventListener('click', showLanding);
 
 els.downloadBtn.addEventListener('click', () => {
+  if(typeof html2canvas === 'undefined'){
+    alert('No se ha podido cargar el generador de imágenes (revisa tu conexión o bloqueadores de scripts) e inténtalo de nuevo.');
+    return;
+  }
+
+  const originalLabel = els.downloadBtn.textContent;
+  els.downloadBtn.disabled = true;
   els.downloadBtn.textContent = '⬇ Generando…';
-  html2canvas(els.exportCard, { backgroundColor: '#172239', scale: 2 }).then(canvas => {
-    const link = document.createElement('a');
-    const suffix = els.resultsView.style.display === 'block' ? 'resultado' : state.currentQ.module.toLowerCase();
-    link.download = `sap-trivia-${suffix}-${Date.now()}.png`;
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-    els.downloadBtn.textContent = '⬇ Descargar';
-  }).catch(() => {
-    els.downloadBtn.textContent = '⬇ Descargar';
-  });
+
+  // Clone the card into an isolated, off-screen wrapper so html2canvas captures
+  // the full element regardless of page scroll position or viewport height.
+  const original = els.exportCard;
+  const clone = original.cloneNode(true);
+  clone.removeAttribute('id');
+  clone.style.margin = '0';
+  clone.querySelectorAll('[id]').forEach(node => node.removeAttribute('id'));
+
+  const wrapper = document.createElement('div');
+  wrapper.style.position = 'fixed';
+  wrapper.style.top = '0';
+  wrapper.style.left = '-99999px';
+  wrapper.style.width = original.offsetWidth + 'px';
+  wrapper.style.zIndex = '-1';
+  wrapper.appendChild(clone);
+  document.body.appendChild(wrapper);
+
+  const cleanup = () => {
+    if(wrapper.parentNode) document.body.removeChild(wrapper);
+    els.downloadBtn.disabled = false;
+    els.downloadBtn.textContent = originalLabel;
+  };
+
+  html2canvas(clone, {
+      backgroundColor: '#172239',
+      scale: 2,
+      useCORS: true,
+      width: clone.scrollWidth,
+      height: clone.scrollHeight,
+      windowWidth: clone.scrollWidth,
+      windowHeight: clone.scrollHeight,
+      x: 0,
+      y: 0,
+      scrollX: 0,
+      scrollY: 0,
+    })
+    .then(canvas => {
+      canvas.toBlob(blob => {
+        if(!blob){
+          cleanup();
+          alert('No se ha podido generar la imagen. Prueba a hacer una captura de pantalla mientras tanto.');
+          return;
+        }
+        const suffix = els.resultsView.style.display === 'block' ? 'resultado' : state.currentQ.module.toLowerCase();
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.download = `sap-trivia-${suffix}-${Date.now()}.png`;
+        link.href = url;
+        link.style.display = 'none';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        setTimeout(() => URL.revokeObjectURL(url), 4000);
+        cleanup();
+      }, 'image/png');
+    })
+    .catch(err => {
+      console.error('Error al generar la tarjeta como imagen:', err);
+      cleanup();
+      alert('No se ha podido generar la imagen. Prueba a hacer una captura de pantalla mientras tanto.');
+    });
 });
 
 showLanding();
