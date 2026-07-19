@@ -103,6 +103,11 @@
     transition: all 0.15s ease;
   }
   .pill:hover{ border-color: var(--border-strong); color: var(--paper); }
+  .modules.locked .pill{
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
   .pill.active{
     color: var(--ink);
     font-weight:600;
@@ -793,6 +798,7 @@ function startSession(){
   els.questionView.style.display = 'block';
   els.nextBtn.style.display = 'inline-flex';
   els.prevBtn.style.display = 'inline-flex';
+  els.modules.classList.add('locked');
 
   renderQuestion();
 }
@@ -812,7 +818,7 @@ function renderQuestion(){
 
   const isLast = idx === state.queue.length - 1;
   els.nextBtn.textContent = isLast ? 'Finalizar ✓' : 'Siguiente →';
-  els.prevBtn.disabled = idx === 0;
+  els.prevBtn.style.display = idx === 0 ? 'none' : 'inline-flex';
 
   els.optionsList.innerHTML = '';
   const letters = ['A','B','C','D'];
@@ -889,6 +895,7 @@ function showResults(){
   els.resultsView.style.display = 'block';
   els.nextBtn.style.display = 'none';
   els.prevBtn.style.display = 'none';
+  els.modules.classList.remove('locked');
   els.statusDot.className = 'status-dot';
   els.progressText.textContent = '· resultado';
 }
@@ -900,6 +907,7 @@ function setActiveModulePill(mod){
 }
 
 els.modules.addEventListener('click', (e) => {
+  if(els.modules.classList.contains('locked')) return;
   const btn = e.target.closest('.pill');
   if(!btn) return;
   state.currentModule = btn.dataset.mod;
