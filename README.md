@@ -16,13 +16,11 @@ Estética: fusión entre la barra de estado clásica de SAP GUI (cabecera de la 
 
 ## Banco de preguntas
 Dentro del array `QUESTIONS` en `index.html`:
-- FI: 20 preguntas
-- MM: 20 preguntas
-- SD: 20 preguntas
+- FI, MM, SD: 20 preguntas cada uno
 - HR: 40 preguntas (las 20 originales + 20 de nivel avanzado: OM, nómina, retro, off-cycle, HCM P&F...)
-- BTP, BW, PM, QM, WM: 4 preguntas cada uno (20 en total)
+- BTP, BW, PM, QM, WM: 20 preguntas cada uno
 
-Total: 144 preguntas.
+Total: 200 preguntas. Cada sesión sigue siendo de 10 preguntas aleatorias, aunque el banco del módulo elegido tenga 20 o 40.
 
 Para añadir más, sigue el mismo formato:
 
