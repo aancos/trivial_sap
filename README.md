@@ -1,6 +1,6 @@
 # Trivial SAP
 
-Tarjetas tipo test sobre SAP (FI · MM · SD · HR · BTP · BW · PM · QM · WM) — sesión de 10 preguntas aleatorias con navegación adelante/atrás, racha, resultado final y exportación de tarjeta como imagen para LinkedIn.
+Tarjetas tipo test sobre SAP (FI · MM · SD · HR · BTP · BW · PM · QM · WM · ABAP · Fiori · Joule) — sesión de 10 preguntas aleatorias con navegación adelante/atrás, racha, resultado final y exportación de tarjeta como imagen para LinkedIn.
 
 Las opciones de respuesta se barajan en cada sesión, así que la correcta no cae siempre en A o B.
 
@@ -19,8 +19,11 @@ Dentro del array `QUESTIONS` en `index.html`:
 - FI, MM, SD: 20 preguntas cada uno
 - HR: 40 preguntas (las 20 originales + 20 de nivel avanzado: OM, nómina, retro, off-cycle, HCM P&F...)
 - BTP, BW, PM, QM, WM: 20 preguntas cada uno
+- ABAP: 20 preguntas (DDIC, ABAP OO, CDS Views, AMDP, RAP, BAdI, ATC...)
+- Fiori: 20 preguntas (SAPUI5, Fiori Elements, Launchpad, Spaces & Pages...)
+- Joule: 20 preguntas (copiloto de IA generativa de SAP, skills, extensibilidad, seguridad...)
 
-Total: 200 preguntas. Cada sesión sigue siendo de 10 preguntas aleatorias, aunque el banco del módulo elegido tenga 20 o 40.
+Total: 320 preguntas. Cada sesión sigue siendo de 10 preguntas aleatorias, aunque el banco del módulo elegido tenga 20 o 40.
 
 Para añadir más, sigue el mismo formato:
 
