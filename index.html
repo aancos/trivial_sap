@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
- <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-931RKBXB15"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-931RKBXB15');
-</script> 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SAP // TRIVIAL — Consultor en Sentido Común</title>
@@ -34,14 +25,6 @@
     --mm: #6C9A5C;
     --sd: #6C8EBF;
     --hr: #B15E9E;
-    --btp: #4FB0C6;
-    --bw: #9A7FD1;
-    --pm: #D6823F;
-    --qm: #C9A22E;
-    --wm: #5B9C86;
-    --abap: #6E8FB5;
-    --fiori: #E2725B;
-    --joule: #B968C7;
   }
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
@@ -131,14 +114,6 @@
   .pill[data-mod="MM"].active{ background: var(--mm); }
   .pill[data-mod="SD"].active{ background: var(--sd); }
   .pill[data-mod="HR"].active{ background: var(--hr); }
-  .pill[data-mod="BTP"].active{ background: var(--btp); }
-  .pill[data-mod="BW"].active{ background: var(--bw); }
-  .pill[data-mod="PM"].active{ background: var(--pm); }
-  .pill[data-mod="QM"].active{ background: var(--qm); }
-  .pill[data-mod="WM"].active{ background: var(--wm); }
-  .pill[data-mod="ABAP"].active{ background: var(--abap); }
-  .pill[data-mod="FIORI"].active{ background: var(--fiori); }
-  .pill[data-mod="JOULE"].active{ background: var(--joule); }
 
   /* ---------- Card ---------- */
   .stage{
@@ -186,14 +161,6 @@
   .mod-tag.MM{ background: var(--mm); }
   .mod-tag.SD{ background: var(--sd); }
   .mod-tag.HR{ background: var(--hr); }
-  .mod-tag.BTP{ background: var(--btp); }
-  .mod-tag.BW{ background: var(--bw); }
-  .mod-tag.PM{ background: var(--pm); }
-  .mod-tag.QM{ background: var(--qm); }
-  .mod-tag.WM{ background: var(--wm); }
-  .mod-tag.ABAP{ background: var(--abap); }
-  .mod-tag.FIORI{ background: var(--fiori); }
-  .mod-tag.JOULE{ background: var(--joule); }
   .mod-tag.ALL{ background: var(--paper); }
   .results-mod-tag{
     display:inline-block;
@@ -345,6 +312,12 @@
     font-size: 14px;
     line-height: 1.6;
   }
+  .landing-actions{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    flex-wrap:wrap;
+  }
 
   /* ---------- Results view ---------- */
   .results-view{ display:none; text-align:center; padding: 8px 0 4px; }
@@ -443,6 +416,85 @@
   }
   .btn-replay:hover{ background: var(--amber-dim); }
 
+  /* ---------- Save score row ---------- */
+  .save-score-block{
+    margin: 4px 0 24px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border);
+  }
+  .save-score-row{
+    display:flex;
+    gap:8px;
+    justify-content:center;
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .save-score-row input{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+    padding: 11px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border-strong);
+    background: var(--ink-3);
+    color: var(--paper);
+    min-width: 180px;
+    outline: none;
+  }
+  .save-score-row input:focus{ border-color: var(--amber); }
+  .save-score-row input::placeholder{ color: var(--muted); }
+  .save-status{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12px;
+    color: var(--muted);
+    min-height: 16px;
+  }
+  .save-status.ok{ color: var(--green); }
+  .save-status.err{ color: var(--red); }
+
+  /* ---------- Ranking view ---------- */
+  .ranking-view{ display:none; text-align:center; padding: 8px 0 4px; }
+  .ranking-view .modules{
+    justify-content:center;
+    margin: 4px 0 20px;
+  }
+  .ranking-table{
+    width:100%;
+    border-collapse: collapse;
+    text-align:left;
+    margin-top: 4px;
+  }
+  .ranking-table th{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    text-transform: uppercase;
+    padding: 8px 8px;
+    border-bottom: 1px solid var(--border-strong);
+  }
+  .ranking-table td{
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .ranking-table tr:first-child td{ color: var(--amber); font-weight:600; }
+  .ranking-pos{
+    font-family:'IBM Plex Mono', monospace;
+    color: var(--muted);
+    width: 26px;
+  }
+  .ranking-points{
+    font-family:'IBM Plex Mono', monospace;
+    text-align:right;
+  }
+  .ranking-empty, .ranking-loading, .ranking-error{
+    color: var(--muted);
+    font-size: 14px;
+    padding: 34px 0;
+  }
+  .ranking-error{ color: var(--red); }
+
   @media (max-width: 480px){
     .card-footer{ flex-direction:column; align-items:stretch; }
     .actions{ justify-content: stretch; }
@@ -480,17 +532,12 @@
             <button class="pill" data-mod="MM">MM</button>
             <button class="pill" data-mod="SD">SD</button>
             <button class="pill" data-mod="HR">HR</button>
-            <button class="pill" data-mod="BTP">BTP</button>
-            <button class="pill" data-mod="BW">BW</button>
-            <button class="pill" data-mod="PM">PM</button>
-            <button class="pill" data-mod="QM">QM</button>
-            <button class="pill" data-mod="WM">WM</button>
-            <button class="pill" data-mod="ABAP">ABAP</button>
-            <button class="pill" data-mod="FIORI">Fiori</button>
-            <button class="pill" data-mod="JOULE">Joule</button>
           </div>
           <p class="landing-desc">10 preguntas tipo test aleatorias del módulo elegido. Podrás moverte hacia adelante y hacia atrás, pero no cambiar de módulo hasta terminar la sesión.</p>
-          <button class="btn-replay" id="startBtn">Empezar sesión →</button>
+          <div class="landing-actions">
+            <button class="btn-replay" id="startBtn">Empezar sesión →</button>
+            <button class="btn btn-ghost" id="viewRankingBtn">🏆 Ver ranking</button>
+          </div>
         </div>
         <div id="questionView" style="display:none">
           <p class="question" id="questionText">Cargando pregunta…</p>
@@ -525,9 +572,33 @@
               <div class="stat-label">Tiempo</div>
             </div>
           </div>
+          <div class="save-score-block" id="saveScoreBlock">
+            <div class="save-score-row">
+              <input type="text" id="playerNameInput" placeholder="Tu nombre o alias" maxlength="24">
+              <button class="btn btn-primary" id="saveScoreBtn">Enviar al ranking</button>
+            </div>
+            <div class="save-status" id="saveStatus"></div>
+          </div>
           <div class="results-actions">
             <button class="btn-replay" id="replayBtn">↺ Jugar de nuevo</button>
             <button class="btn btn-ghost" id="changeModuleBtn">Cambiar módulo</button>
+            <button class="btn btn-ghost" id="viewRankingFromResultsBtn">🏆 Ver ranking</button>
+          </div>
+        </div>
+        <div id="rankingView" class="ranking-view">
+          <div class="results-eyebrow">Ranking · top 10</div>
+          <div class="modules" id="rankingModules">
+            <button class="pill active" data-mod="ALL">Todos</button>
+            <button class="pill" data-mod="FI">FI</button>
+            <button class="pill" data-mod="MM">MM</button>
+            <button class="pill" data-mod="SD">SD</button>
+            <button class="pill" data-mod="HR">HR</button>
+          </div>
+          <div id="rankingContent">
+            <p class="ranking-loading">Cargando ranking…</p>
+          </div>
+          <div class="results-actions">
+            <button class="btn btn-ghost" id="rankingBackBtn">← Volver</button>
           </div>
         </div>
       </div>
@@ -544,6 +615,10 @@
   </div>
 
 <script>
+// URL del Worker de Cloudflare que expone el ranking (GET para leer, POST para guardar).
+// Sustituye esto por la URL real que te da `wrangler deploy` (ver DEPLOY.md).
+const RANKING_API = "https://sap-trivial-ranking.aancos-trivial.workers.dev/api/ranking";
+
 const QUESTIONS = [
   // ---- FI ----
   { module:"FI", q:"¿Qué transacción se usa habitualmente para contabilizar un documento de diario en FI (GUI clásico)?",
@@ -795,567 +870,10 @@ const QUESTIONS = [
   { module:"HR", q:"¿Qué infotipo recoge los datos de la relación del empleado con la Seguridad Social española (régimen, NAF)?",
     options:["IT0061","IT0009","IT0008","IT0002"], correct:0,
     note:"IT0061 (Datos de Seguridad Social) es específico de la solución de nómina española y alimenta la cotización y el Sistema RED." },
-
-  // ---- HR (nivel avanzado) ----
-  { module:"HR", q:"¿Qué tipo de objeto de la estructura organizativa (OM) representa un puesto individual ocupado o vacante?",
-    options:["Posición (S)","Persona (P)","Unidad organizativa (O)","Centro de coste (K)"], correct:0,
-    note:"El objeto «S» (Posición) es el puesto concreto; la «O» es la unidad organizativa que lo agrupa y la «P» es el titular." },
-  { module:"HR", q:"¿Qué transacción se usa para mantener gráficamente la estructura organizativa (Organization and Staffing)?",
-    options:["PPOME","PA30","PA40","PPOSE"], correct:0,
-    note:"PPOME permite editar unidades, posiciones y relaciones en modo interactivo; PPOSE es su equivalente solo de visualización." },
-  { module:"HR", q:"¿Qué vía de evaluación estándar recorre una unidad organizativa hasta llegar a los titulares de sus posiciones?",
-    options:["O-S-P","A-B-C","P-O-S","K-O-S"], correct:0,
-    note:"O-S-P (Unidad → Posición → Persona) es la ruta clásica para reconstruir organigramas y listados de plantilla." },
-  { module:"HR", q:"¿En qué infotipo se registran las cualificaciones (skills) de un empleado en Gestión de Cualificaciones?",
-    options:["IT0024","IT0025","IT0001","IT0008"], correct:0,
-    note:"IT0024 (Cualificaciones) alimenta la comparación entre el perfil del empleado y los requisitos del puesto." },
-  { module:"HR", q:"Dentro del clúster de resultados de nómina, ¿qué tabla recoge los movimientos de transferencia bancaria generados?",
-    options:["BT","RT","CRT","WPBP"], correct:0,
-    note:"La tabla BT (Bank Transfers) guarda los importes y datos bancarios que después alimentan el fichero de pago (p.ej. SEPA)." },
-  { module:"HR", q:"¿Qué tabla del clúster de nómina acumula los importes por tipo de retribución a lo largo de distintos periodos (acumulados)?",
-    options:["CRT","RT","BT","C1","V0"], correct:0,
-    note:"CRT (Cumulative Results Table) guarda acumulados anuales o por periodo, útiles por ejemplo para topes de cotización." },
-  { module:"HR", q:"¿Qué feature determina el área de nómina que se propone por defecto al dar de alta a un empleado?",
-    options:["ABKRS","LGMST","SCHKZ","VDSK1"], correct:0,
-    note:"El feature ABKRS deriva el área de nómina propuesta según la agrupación organizativa del alta, aunque se puede sobrescribir." },
-  { module:"HR", q:"¿Para qué se utiliza el feature LGMST en la configuración de nómina?",
-    options:["Determinar el modificador de agrupación de tipos de retribución (payscale/molga)","Determinar el área de nómina","Bloquear infotipos por status","Definir el idioma de la nómina"], correct:0,
-    note:"LGMST fija el «modificador» que, junto al MOLGA, agrupa qué tipos de retribución están permitidos y cómo se valoran." },
-  { module:"HR", q:"¿Qué significa que un infotipo tenga «clase de time constraint» 1 (p.ej. IT0008)?",
-    options:["Debe existir siempre exactamente un registro válido, sin solapes ni huecos","Puede tener varios registros solapados","Es opcional y puede no existir","Solo admite un registro en toda la vida laboral"], correct:0,
-    note:"La clase 1 obliga a que, en cualquier fecha, exista un único registro vigente: al crear uno nuevo, se cierra el anterior automáticamente." },
-  { module:"HR", q:"¿Qué mecanismo de configuración dispara automáticamente el mantenimiento de otros infotipos tras registrar una acción de personal?",
-    options:["Las acciones dinámicas (Dynamic Actions, tabla T588Z)","El esquema de nómina","El grupo de features","La estrategia de liberación"], correct:0,
-    note:"Las acciones dinámicas encadenan, por ejemplo, la apertura automática de IT0009 tras dar de alta a un empleado en IT0000/IT0001." },
-  { module:"HR", q:"¿Qué controla el «infogrupo» (Info Group) asociado a una medida de personal en PA40?",
-    options:["La secuencia de infotipos que se propone mantener durante esa acción","El área de nómina del empleado","El esquema de cálculo de nómina","La clase de contrato"], correct:0,
-    note:"Cada combinación de tipo de medida y motivo tiene un infogrupo que define qué pantallas de infotipo se van encadenando." },
-  { module:"HR", q:"¿Qué es un «off-cycle» en el contexto de la nómina de HCM?",
-    options:["Un pago fuera del ciclo normal de nómina, sin esperar a la liquidación periódica","Un tipo de contrato temporal","Una clase de acción de personal","Un infotipo de tiempos"], correct:0,
-    note:"El off-cycle permite liquidar, por ejemplo, un finiquito o un bono puntual sin alterar el cierre del ciclo regular en curso." },
-  { module:"HR", q:"¿Qué permite el «Concurrent Employment» en HCM?",
-    options:["Que un mismo empleado tenga varias relaciones laborales simultáneas y activas","Que dos empleados compartan un mismo puesto","Que un empleado cambie de sociedad sin baja","Que se dupliquen los datos bancarios"], correct:0,
-    note:"Concurrent Employment gestiona varias relaciones laborales de una misma persona (distintas nóminas) de forma coordinada." },
-  { module:"HR", q:"¿En qué infotipo se registran las ausencias del empleado (vacaciones, bajas)?",
-    options:["IT2001","IT2002","IT2006","IT0008"], correct:0,
-    note:"IT2001 (Ausencias) registra vacaciones, bajas médicas y similares; IT2002 registra presencias y IT2006 los cupos de ausencia." },
-  { module:"HR", q:"¿Qué infotipo almacena los cupos de ausencia (p.ej. días de vacaciones disponibles) de un empleado?",
-    options:["IT2006","IT2001","IT2002","IT0041"], correct:0,
-    note:"IT2006 (Cupos de Ausencia) puede generarse automáticamente por programa o mantenerse de forma manual según el proceso." },
-  { module:"HR", q:"¿Qué herramienta de HCM permite registrar tiempos de forma transversal, incluso para usuarios externos a HR (p.ej. desde PS o PM)?",
-    options:["CATS (Cross-Application Time Sheet)","PA30","PC00_M99_CALC","PPOME"], correct:0,
-    note:"CATS centraliza el registro de horas y las traslada después a los módulos de destino: nómina, gestión de tiempos, proyectos, etc." },
-  { module:"HR", q:"¿Qué desencadena habitualmente un cálculo de nómina retroactivo (retrocálculo)?",
-    options:["Un cambio con fecha pasada en un infotipo relevante para nómina ya liquidada","Cambiar el idioma de comunicación del empleado","Modificar un texto explicativo en IT0002","Cambiar la foto del empleado"], correct:0,
-    note:"Si se modifica con fecha retroactiva un dato ya procesado (p.ej. el salario del mes anterior), el sistema marca el periodo para recalcular." },
-  { module:"HR", q:"¿Qué es el «esquema de nómina» (Payroll Schema) dentro de la configuración de PY?",
-    options:["La secuencia de funciones y reglas de cálculo (PCR) que ejecuta el driver de nómina","El calendario de periodos de pago","La estructura del organigrama","El listado de tipos de retribución permitidos"], correct:0,
-    note:"El esquema encadena funciones (p.ej. cálculo de IRPF, SS) y, dentro de ellas, reglas de cálculo (PCR) parametrizables." },
-  { module:"HR", q:"¿Qué solución de HCM digitaliza procesos de RR. HH. combinando workflow y formularios (p.ej. Adobe Interactive Forms)?",
-    options:["HCM Processes & Forms","CATS","Concurrent Employment","Manager Self-Service clásico"], correct:0,
-    note:"HCM P&F sustituye procesos en papel por formularios interactivos con flujo de aprobación integrado en el sistema." },
-  { module:"HR", q:"¿Qué agrupación determina, para un colectivo de empleados, qué tipos de retribución están permitidos en IT0008/IT0014/IT0015?",
-    options:["La agrupación de colectivo de personal para tipos de retribución (Employee Subgroup Grouping for PCR)","El área de nómina","El grupo de cuentas","El esquema de precios"], correct:0,
-    note:"Esa agrupación (derivada de colectivo y subcolectivo de personal) filtra qué tipos de retribución aparecen como válidos para cada empleado." },
-
-  // ---- BTP ----
-  { module:"BTP", q:"¿Qué componente de SAP BTP se usa principalmente para construir integraciones (flujos) entre sistemas SAP y no SAP?",
-    options:["SAP Integration Suite","SAP Build Apps","SAP Analytics Cloud","SAP Fiori Launchpad"], correct:0,
-    note:"Integration Suite (con Cloud Integration) diseña, ejecuta y monitoriza flujos de integración entre sistemas heterogéneos." },
-  { module:"BTP", q:"¿Qué modelo de consumo caracteriza principalmente a SAP BTP frente a un sistema on-premise clásico?",
-    options:["Plataforma como servicio (PaaS) multi-cloud, con pago por consumo","Licencia perpetua instalada en servidor propio","Solo disponible en modo standalone sin conectividad externa","Exclusivamente para desarrollo ABAP clásico"], correct:0,
-    note:"BTP se consume como PaaS sobre hyperscalers (AWS, Azure, GCP, Alibaba), habitualmente con modelos de precio por uso." },
-  { module:"BTP", q:"¿Qué herramienta de BTP permite crear aplicaciones empresariales con enfoque low-code/no-code?",
-    options:["SAP Build Apps","SAP HANA Cloud","SAP Cloud Connector","SAP Solution Manager"], correct:0,
-    note:"SAP Build Apps (antes AppGyver) permite montar interfaces y lógica de negocio con mínima programación tradicional." },
-  { module:"BTP", q:"¿Qué componente de BTP actúa como base de datos in-memory sobre la que se apoyan muchos servicios de la plataforma?",
-    options:["SAP HANA Cloud","SAP Business Application Studio","SAP Cloud Connector","SAP Task Center"], correct:0,
-    note:"HANA Cloud aporta procesamiento en memoria, motores analíticos y de texto que sustentan aplicaciones y análisis en BTP." },
-  { module:"BTP", q:"¿Qué entornos de ejecución (runtime) ofrece BTP para desplegar aplicaciones?",
-    options:["Cloud Foundry, Kyma y el entorno ABAP","Solo Java EE clásico","Solo .NET Framework","Solo HANA XS classic"], correct:0,
-    note:"Cada entorno tiene un propósito distinto: Cloud Foundry para apps multi-lenguaje, Kyma para microservicios en Kubernetes y ABAP environment para extensiones ABAP en la nube." },
-  { module:"BTP", q:"¿Qué entorno de BTP se basa en Kubernetes para desplegar contenedores y microservicios?",
-    options:["Kyma","Cloud Foundry","ABAP Environment","Neo"], correct:0,
-    note:"Kyma es la oferta de BTP construida sobre Kubernetes, pensada para arquitecturas cloud-native y microservicios." },
-  { module:"BTP", q:"¿Qué IDE en la nube se usa habitualmente para desarrollar extensiones (apps Fiori, CAP) sobre BTP?",
-    options:["SAP Business Application Studio","SAP GUI","Eclipse ADT clásico","SAP Solution Manager"], correct:0,
-    note:"Business Application Studio ofrece plantillas y herramientas preconfiguradas para desarrollo full-stack en BTP." },
-  { module:"BTP", q:"¿Qué componente permite conectar de forma segura un sistema on-premise con servicios de BTP sin abrir puertos entrantes?",
-    options:["SAP Cloud Connector","SAP Fiori Launchpad","SAP Business Application Studio","SAP Alert Notification Service"], correct:0,
-    note:"El Cloud Connector establece un túnel seguro saliente desde la red on-premise hacia BTP, evitando exponer el sistema interno." },
-  { module:"BTP", q:"¿Qué servicio de BTP centraliza la configuración de conexiones (URL, credenciales) hacia sistemas externos?",
-    options:["Destination service","Event Mesh","Identity Authentication Service","Task Center"], correct:0,
-    note:"El Destination service guarda de forma centralizada los datos de conexión que consumen las aplicaciones desplegadas en BTP." },
-  { module:"BTP", q:"¿Cómo se llama el enfoque de extensibilidad que desarrolla aplicaciones separadas del núcleo S/4HANA, comunicándose vía API?",
-    options:["Extensibilidad side-by-side","Extensibilidad in-app","Modificación del núcleo (core modification)","User-Exit clásico"], correct:0,
-    note:"Frente a la extensibilidad in-app (dentro del propio S/4HANA), la side-by-side vive en BTP y se integra vía API, sin tocar el core." },
-  { module:"BTP", q:"¿Qué servicio de BTP habilita mensajería asíncrona basada en eventos (publicación/suscripción) entre aplicaciones?",
-    options:["SAP Event Mesh","SAP Task Center","SAP Alert Notification Service","SAP Build Apps"], correct:0,
-    note:"Event Mesh permite que las aplicaciones se comuniquen mediante eventos desacoplados, sin llamadas síncronas directas." },
-  { module:"BTP", q:"¿Qué servicio de BTP actúa como proveedor de identidad central para la autenticación de usuarios?",
-    options:["SAP Identity Authentication Service (IAS)","SAP Identity Provisioning Service (IPS)","SAP Cloud Connector","SAP HANA Cloud"], correct:0,
-    note:"IAS centraliza el login (SSO, MFA) de usuarios frente a las aplicaciones desplegadas en BTP y otros sistemas conectados." },
-  { module:"BTP", q:"¿Qué servicio de BTP sincroniza automáticamente usuarios y datos de identidad entre sistemas origen y destino?",
-    options:["SAP Identity Provisioning Service (IPS)","SAP Identity Authentication Service (IAS)","SAP Event Mesh","SAP Build Process Automation"], correct:0,
-    note:"IPS automatiza el alta, baja y modificación de usuarios entre distintos sistemas, evitando el mantenimiento manual duplicado." },
-  { module:"BTP", q:"¿Desde qué herramienta se gestionan subcuentas, entitlements y suscripciones de servicios en BTP?",
-    options:["SAP BTP Cockpit","SAP Fiori Launchpad","SAP Business Application Studio","SAP GUI"], correct:0,
-    note:"El Cockpit es el punto central de administración: subcuentas, cuotas de servicios, usuarios y entornos disponibles." },
-  { module:"BTP", q:"¿Qué unidad organizativa de BTP agrupa espacios/entornos y consumo de recursos dentro de una cuenta global?",
-    options:["La subcuenta (Subaccount)","El InfoArea","La sociedad","El área de negocio"], correct:0,
-    note:"Cada subcuenta tiene su propia cuota de servicios, usuarios y entornos, y cuelga de una cuenta global (Global Account)." },
-  { module:"BTP", q:"¿Qué servicio de BTP combina automatización robótica de procesos (RPA) con workflow para automatizar procesos de negocio?",
-    options:["SAP Build Process Automation","SAP Build Apps","SAP Analytics Cloud","SAP HANA Cloud"], correct:0,
-    note:"Build Process Automation une bots RPA con flujos de aprobación (workflow) en una misma herramienta low-code." },
-  { module:"BTP", q:"¿Qué servicio de BTP centraliza en una única bandeja las tareas pendientes de aprobación de distintos sistemas?",
-    options:["SAP Task Center","SAP Event Mesh","SAP Destination Service","SAP Cloud Connector"], correct:0,
-    note:"Task Center agrega tareas de S/4HANA, SuccessFactors u otros sistemas en un único punto de trabajo para el usuario." },
-  { module:"BTP", q:"¿Qué modelo de programación de SAP facilita crear servicios y aplicaciones basados en definiciones de datos y servicios (CDS)?",
-    options:["CAP (Cloud Application Programming Model)","ABAP clásico","BAPI Framework","IDoc Framework"], correct:0,
-    note:"CAP proporciona un enfoque «grounded by domain models», generando servicios OData/REST a partir de modelos CDS." },
-  { module:"BTP", q:"¿Qué servicio de BTP envía notificaciones automáticas cuando se cumplen determinadas condiciones (p.ej. errores en un flujo)?",
-    options:["SAP Alert Notification Service","SAP Identity Authentication Service","SAP Build Apps","SAP Cloud Connector"], correct:0,
-    note:"El Alert Notification Service permite definir condiciones y canales de aviso (email, Slack, etc.) ante eventos relevantes." },
-  { module:"BTP", q:"¿Sobre qué proveedores de infraestructura (hyperscalers) puede desplegarse SAP BTP?",
-    options:["AWS, Microsoft Azure, Google Cloud y Alibaba Cloud, entre otros","Únicamente servidores propios on-premise","Solo Microsoft Azure","Ningún proveedor externo, es 100% propietario"], correct:0,
-    note:"BTP es multi-cloud por diseño: las subcuentas se pueden desplegar en distintos hyperscalers según la región y el servicio." },
-
-  // ---- BW ----
-  { module:"BW", q:"En BW/4HANA, ¿qué objeto unifica el antiguo modelo de InfoCubes y DataStore Objects clásicos?",
-    options:["ADSO (Advanced DataStore Object)","InfoSet","MultiProvider clásico","Open ODS View"], correct:0,
-    note:"El ADSO simplifica el modelado sustituyendo a los distintos tipos de InfoProvider de almacenamiento del BW clásico." },
-  { module:"BW", q:"¿Qué herramienta se usa habitualmente para diseñar consultas analíticas (queries) sobre datos de BW?",
-    options:["BEx Query Designer","ME21N","VA01","PA30"], correct:0,
-    note:"BEx Query Designer (o sus evoluciones en BW/4HANA) define las consultas que luego se consumen, por ejemplo, en Analysis for Office." },
-  { module:"BW", q:"¿Qué proceso se encarga de trasladar datos entre dos InfoProviders o desde el origen hasta BW, aplicando transformaciones?",
-    options:["El proceso de transferencia de datos (DTP)","El pedido de compras","La entrega de salida","El plan de mantenimiento"], correct:0,
-    note:"El DTP ejecuta la carga aplicando las reglas definidas en la transformación, ya sea en modo full o delta." },
-  { module:"BW", q:"¿Qué objeto de BW define cómo se transforman y mapean los campos de origen a los campos de destino durante una carga?",
-    options:["La transformación (Transformation)","El InfoObject","El área de administración","El rol de reporting"], correct:0,
-    note:"La transformación contiene las reglas de mapeo, rutinas y fórmulas que convierten los datos de origen al modelo destino." },
-  { module:"BW", q:"¿Qué objeto básico de BW representa un elemento de negocio reutilizable, como una característica o una cifra clave?",
-    options:["El InfoObject","El ADSO","El DTP","La transformación"], correct:0,
-    note:"Los InfoObjects son los bloques mínimos con los que se construyen todos los InfoProviders y consultas de BW." },
-  { module:"BW", q:"¿Qué tipo de InfoObject almacena un valor numérico agregable, como el importe de una venta?",
-    options:["La cifra clave (Key Figure)","La característica (Characteristic)","La unidad (Unit)","El atributo de navegación"], correct:0,
-    note:"Las cifras clave son los valores que se suman, promedian o agregan; las características describen el contexto (cliente, material, fecha)." },
-  { module:"BW", q:"En BW/4HANA, ¿qué objeto combina varios InfoProviders mediante unión o join sin duplicar físicamente los datos?",
-    options:["El CompositeProvider","El ADSO","El Open ODS View","La DataSource"], correct:0,
-    note:"El CompositeProvider sustituye a los antiguos MultiProvider e InfoSet, combinando datos en tiempo de consulta." },
-  { module:"BW", q:"¿Qué objeto de BW/4HANA permite reportar directamente sobre tablas de origen sin replicar previamente los datos?",
-    options:["El Open ODS View","El ADSO","El CompositeProvider","La transformación"], correct:0,
-    note:"El Open ODS View habilita escenarios de acceso virtual («federado»), útil para prototipado rápido o fuentes no volátiles." },
-  { module:"BW", q:"¿Qué objeto automatiza y encadena la secuencia de procesos de carga y transformación en BW?",
-    options:["La cadena de procesos (Process Chain)","El InfoArea","La DataSource","El Open ODS View"], correct:0,
-    note:"La cadena de procesos orquesta en orden y con dependencias las extracciones, DTP, activaciones y otros pasos de carga." },
-  { module:"BW", q:"¿Qué objeto representa, en el sistema origen, la estructura y la lógica de extracción de los datos hacia BW?",
-    options:["La DataSource","El InfoObject","El CompositeProvider","La cadena de procesos"], correct:0,
-    note:"La DataSource define los campos disponibles para extracción y, junto a la transformación, alimenta el DTP de carga." },
-  { module:"BW", q:"¿Cómo se llama el programa u objeto estándar que extrae datos de un sistema SAP origen (p.ej. ventas) hacia BW?",
-    options:["El extractor (estándar o genérico)","El InfoArea","El CompositeProvider","La cadena de procesos"], correct:0,
-    note:"Los extractores estándar (Business Content) o genéricos leen datos de tablas o vistas del sistema origen para alimentar BW." },
-  { module:"BW", q:"¿Qué objeto organiza los InfoProviders en carpetas dentro del árbol de modelado de BW?",
-    options:["El InfoArea","El InfoObject","La DataSource","El CompositeProvider"], correct:0,
-    note:"El InfoArea es puramente organizativo, sin impacto funcional, y ayuda a estructurar el modelo de datos por áreas de negocio." },
-  { module:"BW", q:"¿Qué tipo de carga transfiere únicamente los registros nuevos o modificados desde la última extracción?",
-    options:["La carga delta","La carga full","La carga inicial completa","La recarga histórica"], correct:0,
-    note:"La carga delta reduce drásticamente el volumen y el tiempo de procesamiento frente a repetir una carga full cada vez." },
-  { module:"BW", q:"¿Qué caracteriza principalmente a SAP BW/4HANA frente al BW clásico sobre otras bases de datos?",
-    options:["Se ejecuta exclusivamente sobre SAP HANA y simplifica el modelo de objetos (p.ej. ADSO sustituye a InfoCubes/DSO)","Es idéntico al BW clásico pero con otro nombre comercial","Elimina la necesidad de InfoObjects","Solo permite carga de datos en tiempo real, nunca por lotes"], correct:0,
-    note:"BW/4HANA reduce el número de tipos de objeto y aprovecha el procesamiento en memoria de HANA para simplificar el modelado." },
-  { module:"BW", q:"¿Qué herramienta de front-end permite consumir queries de BW directamente desde Excel o PowerPoint?",
-    options:["SAP Analysis for Office","SAP Business Application Studio","SAP Fiori Launchpad","QP01"], correct:0,
-    note:"Analysis for Office integra las consultas BEx/BW como pivots interactivos dentro de las aplicaciones de Microsoft Office." },
-  { module:"BW", q:"¿Qué tipo de conexión permite a SAP Analytics Cloud consultar datos de BW en tiempo real sin replicarlos?",
-    options:["La conexión en vivo (Live Connection)","La importación de datos (Data Import)","La conexión delta","El Open ODS View"], correct:0,
-    note:"Con Live Connection, SAC consulta BW directamente en el momento de ejecutar el informe, sin copiar los datos a SAC." },
-  { module:"BW", q:"¿Para qué sirven las variables en una query BEx?",
-    options:["Permiten que el usuario introduzca valores de filtro (p.ej. un rango de fechas) al ejecutar la consulta","Definen el esquema de precios de venta","Sustituyen a los InfoObjects en el modelo","Solo se usan para nombrar la query"], correct:0,
-    note:"Las variables hacen la query dinámica: el usuario decide en tiempo de ejecución sobre qué periodo, sociedad o material filtrar." },
-  { module:"BW", q:"En el BW clásico (previo a BW/4HANA), ¿qué objeto almacenaba datos en un modelo en estrella con tablas de hechos y dimensiones?",
-    options:["El InfoCube","El ADSO","El Open ODS View","El CompositeProvider"], correct:0,
-    note:"El InfoCube clásico organizaba los datos en una tabla de hechos rodeada de tablas de dimensión, típico modelo estrella." },
-  { module:"BW", q:"¿Qué tipo de DataStore Object (DSO) clásico prioriza la velocidad de carga sobre la activación inmediata de los datos?",
-    options:["El DSO optimizado para escritura (Write-Optimized DSO)","El DSO estándar","El InfoCube","El Open ODS View"], correct:0,
-    note:"El Write-Optimized DSO omite el paso de activación en la carga, ganando velocidad a cambio de menos transformación inmediata." },
-  { module:"BW", q:"En la arquitectura por capas (LSA++), ¿qué capa conserva los datos en su granularidad de origen, sin transformar para reporting?",
-    options:["La capa de memoria corporativa (Corporate Memory)","La capa de reporting","La capa de InfoArea","La capa de Open ODS View"], correct:0,
-    note:"La Corporate Memory guarda el histórico «tal cual» llegó del origen, sirviendo de base para reconstruir capas superiores si hace falta." },
-
-  // ---- PM ----
-  { module:"PM", q:"¿Qué transacción se usa para crear un aviso de avería o mantenimiento?",
-    options:["IW21","IW31","IW38","IL01"], correct:0,
-    note:"IW21 crea el aviso (síntoma del problema); a partir de él puede generarse una orden de mantenimiento con IW31." },
-  { module:"PM", q:"¿Qué transacción se usa para crear una orden de mantenimiento?",
-    options:["IW31","IW21","IW28","IL02"], correct:0,
-    note:"IW31 crea la orden, donde se planifican operaciones, materiales y recursos para resolver el aviso correspondiente." },
-  { module:"PM", q:"¿Qué objeto técnico representa un activo físico individual sujeto a mantenimiento (p.ej. una bomba concreta)?",
-    options:["El equipo (Equipment)","El centro de coste","El aviso de avería","La hoja de ruta"], correct:0,
-    note:"El equipo (tabla EQUI) es la pieza física identificable; puede estar instalado en una ubicación técnica dentro de la planta." },
-  { module:"PM", q:"¿Qué documento agrupa tareas de mantenimiento preventivo que se repiten con una periodicidad definida?",
-    options:["El plan de mantenimiento (Maintenance Plan)","El aviso de avería","El pedido de compras","La hoja de ruta de producción"], correct:0,
-    note:"El plan de mantenimiento genera automáticamente órdenes u avisos cuando se cumple el ciclo definido (tiempo, contador, etc.)." },
-  { module:"PM", q:"¿Qué objeto representa una posición física o funcional dentro de la planta, independiente del equipo que tenga instalado en cada momento?",
-    options:["La ubicación técnica (Functional Location)","El equipo (Equipment)","El puesto de trabajo","El centro de coste"], correct:0,
-    note:"La ubicación técnica describe «dónde» (p.ej. línea 2, estación 3); el equipo instalado en ella puede cambiar con el tiempo." },
-  { module:"PM", q:"¿Qué objeto estándar recoge las operaciones típicas a ejecutar en tareas de mantenimiento repetitivas?",
-    options:["La hoja de ruta de mantenimiento (Maintenance Task List)","El plan de mantenimiento","El aviso de avería","La lista de materiales de mantenimiento"], correct:0,
-    note:"La hoja de ruta estandariza operaciones, tiempos y recursos, y se referencia después desde uno o varios planes de mantenimiento." },
-  { module:"PM", q:"¿Qué campo del aviso de mantenimiento distingue, por ejemplo, entre un aviso de avería y una solicitud de mantenimiento?",
-    options:["La clase de aviso (Notification Type)","El puesto de trabajo","El centro de coste","La prioridad"], correct:0,
-    note:"La clase de aviso (p.ej. M1 avería, M2 solicitud, M3 actividad) determina qué campos y flujo aplican al documento." },
-  { module:"PM", q:"¿Qué objeto define la capacidad y el coste del recurso (mano de obra o máquina) que ejecuta las operaciones de una orden de mantenimiento?",
-    options:["El puesto de trabajo (Work Center)","La ubicación técnica","El equipo","El aviso de avería"], correct:0,
-    note:"El puesto de trabajo aporta capacidad disponible y tarifas, usados para planificar y valorar las operaciones de la orden." },
-  { module:"PM", q:"¿Qué objeto se usa para registrar lecturas periódicas de un contador (p.ej. horas de uso o kilómetros) de un equipo?",
-    options:["El punto de medida (Measuring Point)","La hoja de ruta","El puesto de trabajo","El catálogo de códigos"], correct:0,
-    note:"Los puntos de medida alimentan el mantenimiento basado en condición: al alcanzar cierto valor, se dispara la orden correspondiente." },
-  { module:"PM", q:"¿Qué objeto agrupa varios ciclos o paquetes de mantenimiento con distinta periodicidad dentro de un mismo plan?",
-    options:["La estrategia de mantenimiento (Maintenance Strategy)","La hoja de ruta","El puesto de trabajo","La ubicación técnica"], correct:0,
-    note:"Una estrategia puede combinar, por ejemplo, revisiones mensuales, trimestrales y anuales bajo un mismo plan de mantenimiento." },
-  { module:"PM", q:"¿Qué transacción permite listar y modificar de forma masiva varias órdenes de mantenimiento?",
-    options:["IW38","IW21","IE01","IL01"], correct:0,
-    note:"IW38 ofrece una vista tipo tabla para editar en bloque campos de varias órdenes a la vez, útil en tareas de mantenimiento masivo de datos." },
-  { module:"PM", q:"¿Qué transacción permite listar y modificar de forma masiva varios avisos de mantenimiento?",
-    options:["IW28","IW38","IW31","IW41"], correct:0,
-    note:"IW28 es el equivalente a IW38 pero para avisos en lugar de órdenes." },
-  { module:"PM", q:"¿Qué transacción se usa para crear un equipo técnico?",
-    options:["IE01","IL01","IW21","IW31"], correct:0,
-    note:"IE01 da de alta el equipo como objeto técnico individual, que después puede instalarse en una ubicación técnica." },
-  { module:"PM", q:"¿Qué transacción se usa para crear una ubicación técnica?",
-    options:["IL01","IE01","IW21","IW31"], correct:0,
-    note:"IL01 crea la ubicación técnica, que puede depender jerárquicamente de otra ubicación superior." },
-  { module:"PM", q:"¿Qué objeto recoge los repuestos habituales asociados a un equipo o ubicación técnica para agilizar la planificación?",
-    options:["La lista de materiales de mantenimiento (Maintenance BOM)","La hoja de ruta","El punto de medida","El catálogo"], correct:0,
-    note:"La lista de materiales de mantenimiento facilita añadir rápidamente los repuestos típicos al planificar una orden." },
-  { module:"PM", q:"¿Qué transacción registra la confirmación de tiempos y trabajos reales sobre una orden de mantenimiento?",
-    options:["IW41","IW38","IW31","IW21"], correct:0,
-    note:"IW41 imputa las horas realmente empleadas en cada operación, dato clave para el coste real de la orden y la capacidad consumida." },
-  { module:"PM", q:"¿Qué diferencia principal hay entre mantenimiento correctivo y mantenimiento preventivo?",
-    options:["El correctivo actúa tras la avería; el preventivo se planifica antes de que ocurra, según ciclos o condición","Son sinónimos, no hay diferencia real","El correctivo solo aplica a ubicaciones técnicas y el preventivo solo a equipos","El preventivo siempre requiere una orden urgente"], correct:0,
-    note:"El preventivo busca anticiparse al fallo (por tiempo o por condición); el correctivo repara una avería ya producida." },
-  { module:"PM", q:"¿Qué dato maestro permite hacer seguimiento de la cobertura de garantía de un equipo frente a proveedor o cliente?",
-    options:["La garantía (Warranty)","El punto de medida","La hoja de ruta","El catálogo"], correct:0,
-    note:"La garantía vincula fechas y condiciones de cobertura al equipo, útil para decidir si una reparación es facturable o no." },
-  { module:"PM", q:"¿Qué determina principalmente la «clase de orden» en una orden de mantenimiento?",
-    options:["El tipo de proceso, la numeración y el perfil de liquidación de costes asociados","El proveedor asignado","El canal de distribución","El esquema de precios"], correct:0,
-    note:"La clase de orden (p.ej. PM01) define aspectos como el rango de numeración, los campos disponibles y cómo se liquidan los costes." },
-  { module:"PM", q:"¿Qué tipo de relación puede existir entre ubicaciones técnicas dentro de la estructura de PM?",
-    options:["Jerárquica: una ubicación técnica puede depender de otra superior","Ninguna, son siempre independientes entre sí","Solo pueden relacionarse con equipos, nunca entre ellas","Solo existe relación a través del centro de coste"], correct:0,
-    note:"Esa jerarquía permite navegar y analizar costes o averías agregando desde el nivel más bajo hasta la planta completa." },
-
-  // ---- QM ----
-  { module:"QM", q:"¿Qué transacción se usa para crear manualmente un lote de inspección de calidad?",
-    options:["QA01","QE01","QP01","QM01"], correct:0,
-    note:"QA01 crea el lote manualmente; en procesos estándar (p.ej. entrada de mercancía) suele generarse automáticamente." },
-  { module:"QM", q:"¿Qué documento define las características a inspeccionar de un material y su método de control?",
-    options:["El plan de inspección (Inspection Plan)","El plan de mantenimiento","El pedido de compras","La orden de fabricación"], correct:0,
-    note:"El plan de inspección (transacción QP01) vincula el material con las características, valores de referencia y métodos de muestreo." },
-  { module:"QM", q:"¿Qué transacción se usa para registrar los resultados de una inspección de calidad sobre un lote?",
-    options:["QE01","QA01","QP01","QS21"], correct:0,
-    note:"QE01 permite introducir los valores medidos por característica; a partir de ahí se decide la valoración del lote (aceptado/rechazado)." },
-  { module:"QM", q:"¿Qué objeto de QM define el tamaño de muestra a inspeccionar según un procedimiento estadístico (p.ej. AQL)?",
-    options:["El plan de muestreo (Sampling Procedure)","El plan de inspección","El certificado de calidad","El aviso de calidad"], correct:0,
-    note:"El plan de muestreo determina cuántas unidades revisar y con qué criterio de aceptación/rechazo, en línea con normas como el AQL." },
-  { module:"QM", q:"¿Qué documento de QM certifica formalmente que un lote cumple determinadas especificaciones de calidad?",
-    options:["El certificado de calidad (Quality Certificate)","El aviso de calidad","El plan de muestreo","La decisión de uso"], correct:0,
-    note:"El certificado se genera a partir de los resultados de inspección y puede adjuntarse al envío para el cliente o exigirse al proveedor." },
-  { module:"QM", q:"¿Qué objeto de QM se usa para documentar un problema de calidad interno, de proveedor o de cliente?",
-    options:["El aviso de calidad (Quality Notification)","El plan de inspección","El punto de medida","La hoja de ruta"], correct:0,
-    note:"El aviso de calidad registra el problema, su causa y las acciones correctivas, de forma análoga al aviso de avería en PM." },
-  { module:"QM", q:"¿Qué campo del aviso de calidad distingue si el problema es interno, del proveedor o del cliente?",
-    options:["La clase de notificación (Notification Type: Q1, Q2, Q3)","El plan de muestreo","La decisión de uso","El catálogo de códigos"], correct:0,
-    note:"Q1 suele usarse para problemas internos, Q2 para reclamaciones a proveedor y Q3 para reclamaciones recibidas de cliente." },
-  { module:"QM", q:"¿Qué objeto reutilizable define una característica de inspección estándar (p.ej. «peso» o «color») para usar en distintos planes?",
-    options:["El maestro de características de inspección (Master Inspection Characteristic)","El catálogo","El plan de muestreo","El certificado de calidad"], correct:0,
-    note:"Definir la característica una sola vez y reutilizarla evita duplicar configuración entre distintos planes de inspección." },
-  { module:"QM", q:"¿Qué objeto agrupa códigos estandarizados (p.ej. tipos de defecto o causas) para usarlos en avisos e inspecciones?",
-    options:["El catálogo (Catalog)","El plan de inspección","La decisión de uso","El maestro de características"], correct:0,
-    note:"Los catálogos (y sus grupos de códigos) estandarizan cómo se clasifican defectos, causas y acciones en toda la organización." },
-  { module:"QM", q:"¿Cómo se llama la decisión formal (aceptar/rechazar) que cierra un lote de inspección tras evaluar los resultados?",
-    options:["La decisión de uso (Usage Decision)","El certificado de calidad","El plan de muestreo","El aviso de calidad"], correct:0,
-    note:"La decisión de uso libera el stock retenido en inspección hacia stock libre, lo bloquea o lo devuelve, según el resultado." },
-  { module:"QM", q:"¿En qué status de stock queda habitualmente el material tras una entrada de mercancía sujeta a inspección de calidad?",
-    options:["Stock en inspección de calidad (restringido, no disponible para consumo libre)","Stock libre de utilización inmediata","Stock en tránsito entre centros","Stock bloqueado por caducidad"], correct:0,
-    note:"Ese stock queda retenido hasta que la decisión de uso lo libere, lo rechace o lo traspase a otro status." },
-  { module:"QM", q:"¿Qué vista del maestro de materiales activa el control de calidad para un material en un centro determinado?",
-    options:["La vista de Gestión de Calidad (QM view)","La vista de Ventas","La vista de Compras","La vista de Contabilidad"], correct:0,
-    note:"Esa vista, junto con la clave de control de inspección, decide si se genera automáticamente un lote de inspección en cada proceso." },
-  { module:"QM", q:"¿Qué objeto determina, para una combinación material-centro, en qué procesos (entrada de mercancía, fabricación...) se genera automáticamente un lote de inspección?",
-    options:["La clave de control de inspección (Inspection Type)","El catálogo","El plan de muestreo","La decisión de uso"], correct:0,
-    note:"Cada clave de control de inspección (p.ej. 01 entrada de mercancía, 04 en proceso) activa la generación de lotes en ese punto concreto." },
-  { module:"QM", q:"¿Qué técnica de QM usa gráficos de control para monitorizar la estabilidad de un proceso a lo largo del tiempo?",
-    options:["El control estadístico de procesos (SPC)","El plan de muestreo","El certificado de análisis","La auditoría de calidad"], correct:0,
-    note:"El SPC representa mediciones en gráficos con límites de control, ayudando a detectar desviaciones antes de que generen defectos." },
-  { module:"QM", q:"¿Qué objeto controla, para una combinación proveedor-material, si es obligatoria la inspección de calidad en la entrada de mercancía?",
-    options:["El registro de información de calidad (Quality Info Record)","El certificado de calidad","El maestro de características","El catálogo"], correct:0,
-    note:"Este registro puede, por ejemplo, liberar de inspección a un proveedor con buen historial de calidad certificado." },
-  { module:"QM", q:"¿Qué tipo de documento envía habitualmente un proveedor junto con el material, detallando los valores medidos de cada característica?",
-    options:["El certificado de análisis (Certificate of Analysis, COA)","El aviso de calidad","La decisión de uso","El plan de mantenimiento"], correct:0,
-    note:"El COA permite comparar, en la entrada de mercancía, los valores declarados por el proveedor frente a las especificaciones propias." },
-  { module:"QM", q:"¿Qué proceso de QM planifica y documenta la evaluación sistemática de un proceso, producto o proveedor frente a unos criterios definidos?",
-    options:["La auditoría de calidad (Quality Audit)","El plan de muestreo","El aviso de calidad","El punto de medida"], correct:0,
-    note:"Las auditorías de QM programan preguntas, responsables y hallazgos, y pueden derivar en avisos de calidad si detectan desviaciones." },
-  { module:"QM", q:"¿Qué funcionalidad de QM gestiona la extracción y el seguimiento físico de una muestra tomada durante la inspección?",
-    options:["La gestión de muestras físicas (Physical Sample Management)","El catálogo","El certificado de calidad","La decisión de uso"], correct:0,
-    note:"Permite trazar dónde está físicamente la muestra (laboratorio, almacén) y cuándo debe analizarse o destruirse." },
-  { module:"QM", q:"¿Qué metodología, integrable con procesos de QM, analiza de forma sistemática los modos de fallo potenciales de un proceso o producto y su impacto?",
-    options:["AMFE / FMEA (Análisis Modal de Fallos y Efectos)","SPC","El plan de muestreo","La decisión de uso"], correct:0,
-    note:"El FMEA prioriza riesgos según severidad, ocurrencia y detección, ayudando a definir qué características conviene inspeccionar." },
-  { module:"QM", q:"¿Qué metodología estructurada de resolución de problemas, asociable a un aviso de calidad, documenta ocho pasos desde la contención inicial hasta evitar que el problema se repita?",
-    options:["El informe 8D (Ocho Disciplinas)","El SPC","El certificado de análisis","El plan de muestreo"], correct:0,
-    note:"El 8D formaliza equipo, contención, causa raíz, acción correctiva y prevención, quedando trazado dentro del propio aviso de calidad." },
-
-  // ---- WM ----
-  { module:"WM", q:"¿Qué transacción crea una orden de transporte (Transfer Order) en WM clásico?",
-    options:["LT01","LT12","LS01","MIGO"], correct:0,
-    note:"LT01 genera la orden de transporte que mueve físicamente la mercancía entre posiciones de almacén." },
-  { module:"WM", q:"¿Qué unidad organizativa estructura un almacén en zonas físicas dentro de WM clásico (p.ej. picking, bloque, alta rotación)?",
-    options:["El tipo de almacén (Storage Type)","La sociedad","El centro de coste","La organización de ventas"], correct:0,
-    note:"El tipo de almacén agrupa posiciones con características logísticas similares dentro del número de almacén (Warehouse Number)." },
-  { module:"WM", q:"¿Qué documento mueve físicamente la mercancía de una posición a otra dentro del almacén en WM clásico?",
-    options:["La orden de transporte (Transfer Order)","El pedido de compras","La factura de proveedor","El aviso de calidad"], correct:0,
-    note:"La orden de transporte traduce una necesidad logística (entrada, salida, traspaso) en instrucciones concretas de movimiento interno." },
-  { module:"WM", q:"¿Qué transacción confirma una orden de transporte pendiente en WM clásico?",
-    options:["LT12","LT01","LS01","LX03"], correct:0,
-    note:"LT12 confirma que el movimiento físico se ha realizado; existen variantes como LT13 para confirmaciones masivas por grupo." },
-  { module:"WM", q:"¿Cuál es la unidad más pequeña de almacenamiento dentro de la estructura de WM clásico?",
-    options:["La posición de almacén (Storage Bin)","El número de almacén","La sección de almacén","El tipo de almacén"], correct:0,
-    note:"La posición de almacén (bin) es el nivel de detalle final donde físicamente reside la mercancía, dentro de un tipo de almacén." },
-  { module:"WM", q:"¿Qué unidad organizativa de nivel superior agrupa toda la estructura física de un almacén en WM clásico?",
-    options:["El número de almacén (Warehouse Number)","La sección de almacén","La posición de almacén","La zona de picking"], correct:0,
-    note:"El número de almacén es el objeto raíz al que cuelgan tipos de almacén, secciones y posiciones concretas." },
-  { module:"WM", q:"¿Qué objeto agrupa posiciones de almacén con características similares dentro de un mismo tipo de almacén?",
-    options:["La sección de almacén (Storage Section)","El número de almacén","La unidad de almacenamiento","La estrategia de entrada"], correct:0,
-    note:"La sección permite subdividir un tipo de almacén, por ejemplo, por temperatura, tamaño o rotación del producto." },
-  { module:"WM", q:"¿Qué objeto de WM permite gestionar y mover un conjunto de materiales como una única unidad física (p.ej. un palet)?",
-    options:["La unidad de almacenamiento (Storage Unit)","La sección de almacén","El número de almacén","La zona de picking"], correct:0,
-    note:"La unidad de almacenamiento se identifica y trazabiliza como un todo, aunque contenga varios materiales o lotes distintos." },
-  { module:"WM", q:"¿Qué mecanismo determina automáticamente en qué posición concreta se almacena la mercancía que entra al almacén?",
-    options:["La estrategia de entrada (Putaway Strategy)","La estrategia de salida","El tipo de movimiento","La zona de picking"], correct:0,
-    note:"La estrategia de entrada busca, según reglas configuradas, la posición óptima (p.ej. hueco vacío más cercano) para ubicar el material." },
-  { module:"WM", q:"¿Qué mecanismo determina automáticamente de qué posición se retira la mercancía para el picking (p.ej. FIFO)?",
-    options:["La estrategia de salida (Picking/Removal Strategy)","La estrategia de entrada","El tipo de almacén","La unidad de almacenamiento"], correct:0,
-    note:"La estrategia de salida puede priorizar, por ejemplo, el lote más antiguo (FIFO) o la posición con menor stock para liberar hueco." },
-  { module:"WM", q:"¿Qué transacción se usa para crear manualmente una posición de almacén?",
-    options:["LS01N","LT01","LT12","IL01"], correct:0,
-    note:"LS01N da de alta la posición dentro de un tipo de almacén concreto, con sus coordenadas y características logísticas." },
-  { module:"WM", q:"¿Qué objeto determina, en WM clásico, qué orden de transporte se genera automáticamente y con qué lógica ante un movimiento de mercancías?",
-    options:["El tipo de movimiento de WM (Movement Type)","La sección de almacén","La zona de picking","La unidad de almacenamiento"], correct:0,
-    note:"El tipo de movimiento de WM enlaza con el de IM y define, entre otras cosas, las posiciones origen/destino por defecto." },
-  { module:"WM", q:"¿Qué objeto agrupa posiciones de almacén para optimizar rutas de recogida durante el picking?",
-    options:["La zona de picking (Picking Area)","La sección de almacén","El número de almacén","La unidad de almacenamiento"], correct:0,
-    note:"Agrupar posiciones en zonas de picking ayuda a planificar recorridos más eficientes para el personal de almacén." },
-  { module:"WM", q:"¿Qué diferencia principal hay entre la Gestión de Inventarios (IM) y la Gestión de Almacenes (WM) clásica?",
-    options:["IM gestiona el stock a nivel de centro/almacén, mientras que WM lo detalla a nivel de posición concreta dentro del almacén","Son exactamente el mismo módulo con distinto nombre","WM solo aplica a materiales de servicio","IM solo funciona en S/4HANA, nunca en ECC"], correct:0,
-    note:"IM ve «cuánto stock hay en el almacén 0001»; WM sabe además «en qué posición exacta» está cada unidad." },
-  { module:"WM", q:"¿Qué transacción muestra un listado de posiciones de almacén vacías u ocupadas?",
-    options:["LX03","LT01","LT12","LS01N"], correct:0,
-    note:"LX03 (Bin Status Report) ayuda a analizar la ocupación del almacén y detectar huecos libres o mal aprovechados." },
-  { module:"WM", q:"¿Qué solución sucesora de WM clásico ofrece funciones más avanzadas, como gestión de mano de obra, embalaje o yard management?",
-    options:["SAP Extended Warehouse Management (EWM)","SAP TM (Transportation Management)","SAP APO","SAP MRP Live"], correct:0,
-    note:"EWM amplía notablemente las capacidades de WM clásico, orientado a almacenes de alta complejidad y volumen." },
-  { module:"WM", q:"¿Cómo se llama el proceso en el que la mercancía se retira primero a una zona intermedia antes del transporte final a expedición?",
-    options:["El picking en dos pasos (Two-Step Picking)","La estrategia de entrada","El inventario cíclico","La confirmación de orden de transporte"], correct:0,
-    note:"Separar el picking de la carga final permite consolidar varias entregas antes de la expedición definitiva." },
-  { module:"WM", q:"¿Qué diferencia hay entre almacenamiento fijo y almacenamiento caótico (aleatorio) en WM?",
-    options:["En el fijo cada material tiene una posición predeterminada; en el caótico el sistema asigna la posición según disponibilidad y estrategia","No existe diferencia real entre ambos","El caótico solo se usa para materiales peligrosos","El fijo solo aplica a unidades de almacenamiento, nunca a materiales sueltos"], correct:0,
-    note:"El almacenamiento caótico suele aprovechar mejor el espacio; el fijo facilita la localización manual sin sistema." },
-  { module:"WM", q:"¿A qué nivel se puede ejecutar el recuento de inventario físico dentro de WM clásico?",
-    options:["A nivel de posición de almacén (Storage Bin), además del nivel de almacén/centro en IM","Solo a nivel de sociedad","Solo a nivel de centro de coste","Solo de forma anual y nunca cíclica"], correct:0,
-    note:"WM permite recuentos cíclicos por posición concreta, más granulares que el inventario tradicional gestionado en IM." },
-  { module:"WM", q:"¿Qué transacción crea la orden de transporte de salida con referencia directa a un documento de entrega?",
-    options:["LT03","LT01","LT12","LX03"], correct:0,
-    note:"LT03 es la variante orientada a expedición, que toma los datos de la entrega de salida generada previamente en SD/MM." },
-
-  // ---- ABAP ----
-  { module:"ABAP", q:"¿Qué instrucción se usa para declarar una variable en ABAP clásico?",
-    options:["DATA","SELECT","LOOP","FORM"], correct:0,
-    note:"DATA declara una variable con un tipo asociado; desde ABAP 7.40 también puede inferirse el tipo con DATA(nombre) en el punto de uso." },
-  { module:"ABAP", q:"¿Qué sentencia se usa para recorrer los registros de una tabla interna?",
-    options:["LOOP AT","READ TABLE","SELECT * FROM","APPEND"], correct:0,
-    note:"LOOP AT ... ENDLOOP itera fila a fila; READ TABLE, en cambio, accede a un único registro concreto." },
-  { module:"ABAP", q:"¿Qué instrucción se usa para leer un único registro de una tabla interna por clave, sin recorrerla entera?",
-    options:["READ TABLE","LOOP AT","MODIFY","SORT"], correct:0,
-    note:"READ TABLE ... WITH KEY (o WITH TABLE KEY sobre tablas ordenadas/hash) busca un registro puntual de forma eficiente." },
-  { module:"ABAP", q:"¿Qué adición de un SELECT evita que se traigan filas duplicadas en el resultado?",
-    options:["DISTINCT","UNIQUE","SINGLE","GROUP BY *"], correct:0,
-    note:"SELECT DISTINCT elimina filas repetidas en el conjunto de resultados devuelto por la base de datos." },
-  { module:"ABAP", q:"¿Qué tipo de tabla interna ofrece el acceso más rápido por clave, usando una función hash?",
-    options:["HASHED TABLE","STANDARD TABLE","SORTED TABLE","RANGES TABLE"], correct:0,
-    note:"Las tablas hash tienen coste de acceso por clave prácticamente constante, a cambio de no soportar acceso eficiente por índice." },
-  { module:"ABAP", q:"¿Qué instrucción se usa para declarar una clase local dentro de un programa ABAP orientado a objetos?",
-    options:["CLASS ... DEFINITION","INTERFACE ... DEFINITION","FORM ... ENDFORM","TYPES ... TYPE"], correct:0,
-    note:"CLASS ... DEFINITION / IMPLEMENTATION separan la declaración de métodos y atributos de su implementación real." },
-  { module:"ABAP", q:"¿Qué es un BAdI (Business Add-In)?",
-    options:["Un mecanismo de extensión estándar basado en interfaces que SAP predefine en puntos concretos del código","Una tabla de base de datos transparente","Un tipo de tabla interna ordenada","Un editor visual de pantallas"], correct:0,
-    note:"Los BAdIs permiten implementar lógica propia sin modificar el código estándar, siguiendo un contrato de interfaz definido por SAP." },
-  { module:"ABAP", q:"¿Qué pareja de instrucciones se usa para capturar una excepción de clase en ABAP orientado a objetos?",
-    options:["TRY ... CATCH","IF ... ELSE","DO ... ENDDO","CHECK ... EXIT"], correct:0,
-    note:"El bloque TRY/CATCH/ENDTRY captura excepciones basadas en clases (CX_...), permitiendo un manejo de errores estructurado." },
-  { module:"ABAP", q:"¿Qué transacción del Diccionario ABAP se usa para crear o mantener tablas, vistas y elementos de datos?",
-    options:["SE11","SE38","SE80","SE93"], correct:0,
-    note:"SE11 es la puerta de entrada al Diccionario de Datos (DDIC): tablas transparentes, estructuras, dominios, elementos de datos..." },
-  { module:"ABAP", q:"¿Cómo se llama el entorno de desarrollo moderno basado en Eclipse para programar en ABAP?",
-    options:["ABAP Development Tools (ADT)","SE38 clásico","SAP Business Application Studio","SAP GUI Scripting"], correct:0,
-    note:"ADT ofrece una experiencia de desarrollo más moderna que el editor clásico SE38/SE80, integrada en Eclipse." },
-  { module:"ABAP", q:"¿Qué es una CDS View (Core Data Services)?",
-    options:["Una vista de base de datos definida con anotaciones semánticas, ejecutada mediante «code pushdown» en la base de datos","Un tipo de tabla interna hash","Una extensión implícita del código estándar","Un módulo de función remoto"], correct:0,
-    note:"Las CDS Views trasladan lógica de selección y cálculo a la base de datos (típicamente HANA), reduciendo transferencia de datos a la capa ABAP." },
-  { module:"ABAP", q:"¿Qué son los AMDP (ABAP Managed Database Procedures)?",
-    options:["Procedimientos SQLScript que se ejecutan en la base de datos pero se gestionan y versionan desde ABAP","Un tipo de excepción de clase","Un patrón de diseño de interfaces","Una variante de BAdI"], correct:0,
-    note:"Los AMDP permiten escribir lógica en SQLScript nativo de HANA mientras se mantienen dentro del ciclo de vida de transporte ABAP." },
-  { module:"ABAP", q:"¿Qué modelo estándar se usa en S/4HANA para exponer servicios OData transaccionales combinando CDS y lógica de negocio?",
-    options:["RAP (RESTful ABAP Programming Model)","BAPI Framework clásico","IDoc Framework","Function Group clásico"], correct:0,
-    note:"RAP combina CDS Views, Behavior Definitions y Behavior Implementations para generar apps Fiori Elements y APIs OData de forma coherente." },
-  { module:"ABAP", q:"¿Qué instrucción de Open SQL se usa para insertar registros en una tabla de base de datos desde ABAP?",
-    options:["INSERT","APPEND","COLLECT","MODIFY TABLE"], correct:0,
-    note:"INSERT (Open SQL) graba en la base de datos; APPEND, en cambio, añade filas a una tabla interna en memoria." },
-  { module:"ABAP", q:"¿Qué es un Function Module en ABAP?",
-    options:["Una unidad reutilizable de lógica con una interfaz de parámetros definida, invocable con CALL FUNCTION","Una clase abstracta de ABAP OO","Un tipo de excepción del sistema","Una anotación semántica de CDS"], correct:0,
-    note:"Los módulos de función agrupan lógica reutilizable y pueden agruparse en grupos de funciones (Function Groups), incluso exponerse como RFC." },
-  { module:"ABAP", q:"¿Qué es un «User-Exit» clásico en el contexto de ABAP?",
-    options:["Un punto de salida predefinido por SAP en un programa estándar donde se puede insertar código propio sin modificar el core","Una anotación de CDS","Un tipo especial de tabla interna","Un procedimiento SQLScript"], correct:0,
-    note:"Los User-Exits (y más adelante los BAdIs) evitan modificar directamente el código estándar, facilitando futuras actualizaciones." },
-  { module:"ABAP", q:"¿Qué es un «Enhancement Point» implícito?",
-    options:["Un punto de mejora que SAP ya deja preparado dentro del propio código estándar, sin necesidad de crearlo explícitamente","Una tabla de log de cambios","Un tipo de excepción capturable","Un breakpoint de depuración"], correct:0,
-    note:"A diferencia de los puntos explícitos (que hay que insertar), los implícitos ya existen de forma nativa entre sentencias del estándar." },
-  { module:"ABAP", q:"¿Qué transacción se usa para crear o mantener transacciones (t-codes) personalizadas que lanzan un programa propio?",
-    options:["SE93","SE11","SE38","SM30"], correct:0,
-    note:"SE93 vincula un código de transacción de cuatro o más caracteres a un programa, una transacción de diálogo u otro objeto ejecutable." },
-  { module:"ABAP", q:"¿Qué es ATC (ABAP Test Cockpit)?",
-    options:["Una herramienta de análisis estático que revisa la calidad, seguridad y buenas prácticas del código ABAP","Un depurador interactivo paso a paso","Un generador de interfaces Fiori","Un tipo de tabla interna ordenada"], correct:0,
-    note:"ATC ejecuta comprobaciones automáticas (p.ej. reglas de seguridad, rendimiento) antes de liberar o transportar código." },
-  { module:"ABAP", q:"¿Qué indica la variable de sistema SY-SUBRC tras ejecutar una instrucción como SELECT o READ TABLE?",
-    options:["El resultado de la operación: 0 indica éxito y un valor distinto de 0 indica que no se encontró/hubo un problema","El número de registros leídos exactamente","El nombre del último programa ejecutado","El usuario que ejecutó la transacción"], correct:0,
-    note:"Comprobar SY-SUBRC tras una operación es una práctica estándar en ABAP para controlar el flujo según si la acción tuvo éxito." },
-
-  // ---- FIORI ----
-  { module:"FIORI", q:"¿Qué es SAP Fiori, en esencia?",
-    options:["Un conjunto de principios de diseño UX y una colección de aplicaciones web coherentes para trabajar con SAP","Un lenguaje de programación propio de SAP","Una base de datos in-memory","Un módulo de gestión financiera"], correct:0,
-    note:"Fiori busca una experiencia de usuario simple, coherente y adaptada a cualquier dispositivo, frente al SAP GUI clásico." },
-  { module:"FIORI", q:"¿Qué framework JavaScript es la base tecnológica de las aplicaciones Fiori estándar?",
-    options:["SAPUI5","React puro sin wrapper","Angular estándar de SAP","jQuery clásico"], correct:0,
-    note:"SAPUI5 (basado en principios similares a OpenUI5) aporta los controles UI, el enrutamiento y el modelo de datos de las apps Fiori." },
-  { module:"FIORI", q:"¿Qué son las «Fiori Elements»?",
-    options:["Un framework que genera la interfaz de la app automáticamente a partir de metadatos/anotaciones, sin codificar la UI a mano","Un conjunto de iconos oficiales de SAP","Un tipo de tabla interna de SAPUI5","Un servicio de autenticación de usuarios"], correct:0,
-    note:"Fiori Elements reduce drásticamente el código UI necesario, apoyándose en anotaciones OData/CDS para definir listas, detalles, etc." },
-  { module:"FIORI", q:"¿Qué combinación de floorplans de Fiori Elements se usa habitualmente para mostrar una lista de objetos y, al entrar en uno, su detalle?",
-    options:["List Report + Object Page","Overview Page + Analytical List Page","Worklist + Fact Sheet","Launchpad + Catalog"], correct:0,
-    note:"El List Report presenta la lista filtrable; al seleccionar un registro, se navega al Object Page con el detalle completo." },
-  { module:"FIORI", q:"¿Qué protocolo de datos consumen habitualmente las aplicaciones Fiori para leer y escribir información de negocio?",
-    options:["OData","FTP","SOAP puro sin envoltorio OData","IDoc directo"], correct:0,
-    note:"OData estandariza cómo las apps Fiori consultan, filtran y modifican datos expuestos por el backend (p.ej. vía RAP en S/4HANA)." },
-  { module:"FIORI", q:"¿Qué componente centraliza el acceso del usuario final a todas sus aplicaciones Fiori?",
-    options:["El Fiori Launchpad","El ABAP Development Tools","El SAP BTP Cockpit","El Business Application Studio"], correct:0,
-    note:"El Launchpad actúa como portal único de entrada, mostrando los accesos (tiles) a las apps según el rol del usuario." },
-  { module:"FIORI", q:"¿Cómo se organiza habitualmente el Fiori Launchpad en las versiones modernas de S/4HANA?",
-    options:["Mediante «Spaces & Pages»","Mediante carpetas de Windows Explorer","Mediante InfoAreas de BW","Mediante ubicaciones técnicas de PM"], correct:0,
-    note:"Los Spaces agrupan Pages temáticas con sus secciones y tiles, sustituyendo al modelo clásico de catálogos y grupos planos." },
-  { module:"FIORI", q:"¿Qué es un «tile» dentro del Fiori Launchpad?",
-    options:["El icono o acceso directo interactivo que lanza una app, a veces mostrando un indicador (KPI) dinámico","Un tipo de excepción de ABAP","Una tabla interna hash","Un servicio OData de solo lectura"], correct:0,
-    note:"Algunos tiles son estáticos (simple acceso directo) y otros dinámicos, mostrando en tiempo real un dato relevante del negocio." },
-  { module:"FIORI", q:"¿Qué se entiende por una app Fiori «freestyle»?",
-    options:["Una app SAPUI5 codificada a medida, que consume datos vía OData/API sin depender de un floorplan estándar generado","Una app que solo funciona sin conexión a internet","Una app exclusiva para tablets","Una app que no requiere autenticación"], correct:0,
-    note:"Frente a Fiori Elements (generado por metadatos), la app freestyle da control total sobre la UI a cambio de más código propio." },
-  { module:"FIORI", q:"¿Qué extensión de Visual Studio Code se usa habitualmente para desarrollar apps Fiori/SAPUI5 modernas?",
-    options:["SAP Fiori tools","SAP GUI para VS Code","ABAP Development Tools","SAP Business Application Studio Lite"], correct:0,
-    note:"SAP Fiori tools aporta generadores de proyecto, editores de anotaciones y depuración integrada directamente en VS Code." },
-  { module:"FIORI", q:"¿Qué patrón de arquitectura sigue SAPUI5 para separar datos, lógica y presentación?",
-    options:["MVC (Model-View-Controller)","MVVM puro sin binding","Arquitectura monolítica sin capas","Publicación-suscripción exclusivamente"], correct:0,
-    note:"El Modelo gestiona los datos, la Vista define la interfaz y el Controlador conecta la lógica de interacción entre ambos." },
-  { module:"FIORI", q:"¿Qué anotaciones dirigen el comportamiento de Fiori Elements a partir de una CDS View (p.ej. qué campos mostrar en la lista)?",
-    options:["Las anotaciones @UI (p.ej. @UI.lineItem, @UI.facet)","Las anotaciones @AccessControl exclusivamente","Las anotaciones @ObjectModel.readOnly únicamente","Las anotaciones @EndUserText.label exclusivamente"], correct:0,
-    note:"Las anotaciones @UI definen qué campos aparecen en la lista, el detalle, los filtros y las facetas del Object Page." },
-  { module:"FIORI", q:"¿Qué determina principalmente qué apps ve un usuario concreto en su Fiori Launchpad?",
-    options:["Los catálogos y grupos (o Spaces/Pages) asignados a través de sus roles de negocio (PFCG)","El idioma de conexión del usuario","La zona horaria configurada en su perfil","El navegador que esté utilizando"], correct:0,
-    note:"La autorización de apps sigue el mismo modelo de roles que el resto de SAP: sin el catálogo/rol adecuado, la app no aparece." },
-  { module:"FIORI", q:"¿Qué característica permite que una misma app Fiori se adapte automáticamente a escritorio, tablet o móvil?",
-    options:["El diseño responsive de SAPUI5","La generación de PDF automática","El uso exclusivo de tablas HTML clásicas","La ejecución en modo offline permanente"], correct:0,
-    note:"SAPUI5 reorganiza controles y layouts según el tamaño de pantalla disponible, sin necesidad de mantener apps separadas." },
-  { module:"FIORI", q:"¿Para qué se usan las apps de tipo «My Inbox» en el ecosistema Fiori?",
-    options:["Para centralizar en un único lugar las tareas de aprobación de workflow procedentes de distintos sistemas","Para gestionar el catálogo de materiales","Para configurar el Fiori Launchpad","Para depurar código ABAP"], correct:0,
-    note:"My Inbox agrega solicitudes de aprobación (p.ej. pedidos, vacaciones) sin que el usuario tenga que entrar en cada sistema por separado." },
-  { module:"FIORI", q:"¿Qué componente permite que un Fiori Launchpad desplegado en la nube acceda de forma segura a un sistema on-premise?",
-    options:["SAP Cloud Connector","SAP Fiori tools","El UI Theme Designer","El Object Page"], correct:0,
-    note:"El Cloud Connector actúa de puente seguro, evitando exponer directamente el sistema on-premise a internet." },
-  { module:"FIORI", q:"¿Qué herramienta se usa para personalizar o crear temas visuales (colores, tipografía) coherentes entre las apps Fiori?",
-    options:["El UI Theme Designer","El ABAP Test Cockpit","El Business Application Studio","El SAP BTP Cockpit"], correct:0,
-    note:"El Theme Designer permite ajustar el aspecto visual corporativo sin tocar el código de cada aplicación individual." },
-  { module:"FIORI", q:"¿Qué floorplan de Fiori combina tarjetas (cards) con KPIs y accesos rápidos, pensado como vista general de un área?",
-    options:["El Overview Page","El List Report","El Worklist","El Fact Sheet"], correct:0,
-    note:"El Overview Page da una foto general de la situación (indicadores, alertas, accesos) antes de entrar al detalle en otra app." },
-  { module:"FIORI", q:"¿Qué floorplan de Fiori muestra una lista simple de elementos pendientes de procesar, más ligera que un List Report completo?",
-    options:["El Worklist","El Overview Page","El Analytical List Page","El Object Page"], correct:0,
-    note:"El Worklist se usa para tareas operativas rápidas, sin toda la funcionalidad de filtrado avanzado de un List Report." },
-  { module:"FIORI", q:"¿Qué tema visual introdujo SAP como nuevo estándar por defecto, sustituyendo a temas anteriores como Belize o Quartz?",
-    options:["Horizon","Signal","Aurora Dark","Classic Blue Crystal"], correct:0,
-    note:"Horizon actualizó la identidad visual de Fiori con nuevos colores, tipografía y modos claro/oscuro/contraste." },
-
-  // ---- JOULE ----
-  { module:"JOULE", q:"¿Qué es SAP Joule, en esencia?",
-    options:["El copiloto de IA generativa de SAP, integrado en sus aplicaciones para responder preguntas y ejecutar tareas","Un nuevo módulo de contabilidad financiera","Un lenguaje de programación sustituto de ABAP","Una base de datos analítica in-memory"], correct:0,
-    note:"Joule combina IA generativa con el contexto de negocio y los datos reales del sistema del cliente para ayudar al usuario." },
-  { module:"JOULE", q:"¿En qué tipo de aplicaciones SAP puede aparecer Joule integrado?",
-    options:["Directamente en S/4HANA, SuccessFactors, el Fiori Launchpad y otras apps SAP","Únicamente en hojas de cálculo de Excel","Solo en SAP GUI clásico sin conexión a internet","Exclusivamente en entornos de desarrollo ABAP"], correct:0,
-    note:"Joule se despliega de forma transversal en distintas líneas de producto, no como una herramienta aislada." },
-  { module:"JOULE", q:"¿Cuál es la forma principal de interacción del usuario con Joule?",
-    options:["Lenguaje natural, mediante una interfaz conversacional tipo chat","Únicamente mediante formularios rígidos predefinidos","Solo mediante comandos de código","Exclusivamente por voz, sin opción de texto"], correct:0,
-    note:"El usuario formula preguntas o peticiones en lenguaje natural, sin necesidad de conocer rutas de menú ni sintaxis técnica." },
-  { module:"JOULE", q:"¿Qué busca Joule al responder preguntas sobre datos de negocio de una empresa concreta?",
-    options:["Contextualizar la respuesta con datos reales del sistema del cliente, no solo con conocimiento genérico","Ignorar los datos del cliente y responder siempre de forma genérica","Responder únicamente con información pública de internet","Sustituir por completo el acceso a los datos maestros"], correct:0,
-    note:"Joule combina el razonamiento del modelo de lenguaje con información concreta extraída de los procesos y datos del cliente." },
-  { module:"JOULE", q:"¿Sobre qué base tecnológica se apoya principalmente Joule para entender y generar lenguaje?",
-    options:["Modelos de lenguaje de gran tamaño (LLM), orquestados junto con datos y procesos SAP","Reglas fijas tipo árbol de decisión, sin componente de IA generativa","Bases de datos relacionales tradicionales sin IA","Macros de Excel"], correct:0,
-    note:"Los LLM aportan la comprensión y generación de lenguaje natural; SAP añade la capa de orquestación con datos y procesos propios." },
-  { module:"JOULE", q:"¿Qué papel juega SAP BTP en relación con Joule?",
-    options:["Proporciona la infraestructura y los servicios de IA sobre los que se ejecuta y orquesta Joule","No tiene ninguna relación con Joule","Es simplemente el lugar donde se guarda el histórico de conversaciones sin más función","Sustituye a Joule en los procesos técnicos"], correct:0,
-    note:"BTP aporta capacidades de orquestación de IA, integración y gobierno que sustentan el funcionamiento de Joule." },
-  { module:"JOULE", q:"Además de responder preguntas, ¿qué otra capacidad clave tiene Joule dentro de las aplicaciones SAP?",
-    options:["Ejecutar tareas y acciones concretas dentro de las apps, no solo informar","Bloquear automáticamente todos los pedidos pendientes","Sustituir completamente a los consultores funcionales","Generar facturas sin ningún tipo de supervisión humana"], correct:0,
-    note:"Joule puede, por ejemplo, crear un pedido, aprobar una solicitud o disparar un proceso, además de resumir información." },
-  { module:"JOULE", q:"¿Cómo gestiona Joule las autorizaciones y el rol del usuario que lo consulta?",
-    options:["Respeta los roles y autorizaciones existentes, mostrando solo datos a los que el usuario tiene acceso","Ignora por completo las autorizaciones del sistema","Otorga automáticamente acceso total a cualquier usuario","Solo funciona para usuarios con perfil de administrador"], correct:0,
-    note:"Joule no es una puerta trasera al sistema: sigue el mismo modelo de seguridad y autorizaciones ya configurado en SAP." },
-  { module:"JOULE", q:"¿Cómo puede una empresa extender o personalizar las capacidades de Joule para sus propios procesos?",
-    options:["Mediante capacidades de extensibilidad (p.ej. Joule Studio) para crear «skills» propias","No es posible personalizar Joule de ninguna forma","Modificando directamente el código fuente del modelo de lenguaje","Solo SAP puede añadir nuevas capacidades, sin opción de extensión por el cliente"], correct:0,
-    note:"Las herramientas de extensibilidad permiten adaptar Joule a procesos y datos específicos de cada organización." },
-  { module:"JOULE", q:"¿Qué es una «skill» en el contexto de Joule?",
-    options:["Una capacidad específica y delimitada que Joule puede ejecutar, vinculada a un proceso o dato concreto","Un certificado de formación oficial de SAP","Un tipo de licencia de usuario","Un informe financiero estándar"], correct:0,
-    note:"Las skills son los bloques funcionales concretos (p.ej. «consultar stock», «crear una solicitud») que Joule sabe ejecutar." },
-  { module:"JOULE", q:"¿En qué solución de RR. HH. de SAP está integrado Joule para asistir a empleados y managers?",
-    options:["SAP SuccessFactors","SAP Ariba exclusivamente","SAP Concur exclusivamente","SAP Fieldglass exclusivamente"], correct:0,
-    note:"En SuccessFactors, Joule puede ayudar, por ejemplo, a redactar ofertas de empleo o resumir el desempeño de un equipo." },
-  { module:"JOULE", q:"¿Qué tipo de ayuda puede ofrecer Joule frente a grandes volúmenes de información, como avisos o tickets abiertos?",
-    options:["Generar resúmenes en lenguaje natural que sinteticen los puntos clave","Eliminar automáticamente los registros más antiguos","Bloquear la creación de nuevos tickets","Enviar correos masivos sin revisión"], correct:0,
-    note:"Resumir grandes volúmenes de texto es una de las aplicaciones más directas de la IA generativa dentro de Joule." },
-  { module:"JOULE", q:"¿Qué diferencia principal hay entre Joule y un chatbot de reglas tradicional?",
-    options:["Joule usa IA generativa para entender lenguaje natural libre, no solo árboles de decisión predefinidos","Joule solo puede responder con botones de opción múltiple","Un chatbot de reglas siempre entiende mejor el contexto que Joule","No existe ninguna diferencia real entre ambos enfoques"], correct:0,
-    note:"Los chatbots clásicos siguen flujos rígidos; Joule interpreta la intención del usuario de forma más flexible gracias al LLM subyacente." },
-  { module:"JOULE", q:"¿Qué papel cumple el «Knowledge Graph» de SAP en el funcionamiento de Joule?",
-    options:["Ayuda a Joule a entender las relaciones semánticas entre procesos y datos de negocio de SAP","Almacena únicamente las contraseñas de los usuarios","Sustituye a la base de datos transaccional del sistema","Es un módulo exclusivo de generación de gráficos"], correct:0,
-    note:"El Knowledge Graph aporta contexto sobre cómo se relacionan objetos y procesos SAP entre sí, mejorando la precisión de las respuestas." },
-  { module:"JOULE", q:"¿Puede Joule integrarse con fuentes de información más allá de los propios sistemas SAP?",
-    options:["Sí, puede combinarse con fuentes de terceros además de los procesos y datos SAP, según la configuración","No, está limitado exclusivamente a datos SAP sin ninguna excepción","Solo puede leer archivos locales del ordenador del usuario","Solo funciona completamente desconectado de cualquier sistema"], correct:0,
-    note:"La extensibilidad de Joule permite ampliar su alcance más allá del núcleo SAP cuando el escenario lo requiere." },
-  { module:"JOULE", q:"¿Qué elemento visual identifica habitualmente a Joule en las interfaces de SAP?",
-    options:["Un icono de estrella/destello (sparkle), generalmente en tonos dorados","Un icono de rueda dentada en color gris","Un icono de balanza en color negro","Un icono de calculadora clásica"], correct:0,
-    note:"El icono de estrella se ha convertido en el elemento visual reconocible de la presencia de Joule dentro de las apps SAP." },
-  { module:"JOULE", q:"¿En qué tipo de tarea de reclutamiento puede ayudar Joule dentro de SuccessFactors, por ejemplo?",
-    options:["Redactando o mejorando el texto de una oferta de empleo (job posting)","Firmando contratos laborales de forma autónoma","Realizando entrevistas completas sin intervención humana","Aprobando altas de nómina sin supervisión"], correct:0,
-    note:"Joule asiste generando borradores y sugerencias, pero las decisiones finales de contratación siguen en manos del equipo de RR. HH." },
-  { module:"JOULE", q:"¿Qué tipo de ayuda puede ofrecer Joule en tareas de desarrollo dentro del ecosistema SAP?",
-    options:["Asistir generando o explicando fragmentos de código en el contexto de aplicaciones SAP","Sustituir por completo a los desarrolladores ABAP","Compilar automáticamente cualquier lenguaje de programación externo","Firmar digitalmente los transportes de desarrollo"], correct:0,
-    note:"El apoyo de Joule en desarrollo busca acelerar tareas repetitivas o de documentación, no reemplazar el criterio técnico del equipo." },
-  { module:"JOULE", q:"¿Dónde se gestiona de forma centralizada la activación y los permisos de Joule para una organización?",
-    options:["En la administración centralizada dentro de BTP/Fiori Launchpad, según el escenario","En un archivo de configuración local en el puesto de cada usuario","No requiere ninguna configuración ni gobierno, se activa solo","Únicamente puede gestionarlo directamente el soporte de SAP, sin intervención del cliente"], correct:0,
-    note:"Como cualquier capacidad empresarial, Joule se gobierna de forma centralizada: quién lo usa, con qué datos y en qué apps." },
-  { module:"JOULE", q:"¿Qué objetivo persigue Joule frente a la navegación clásica por menús de SAP GUI o Fiori?",
-    options:["Reducir la complejidad de navegación, permitiendo completar tareas mediante lenguaje natural en vez de recorrer menús","Aumentar el número de pasos necesarios para completar una tarea","Eliminar por completo la necesidad de formación de usuarios finales","Sustituir la interfaz gráfica por comandos de línea"], correct:0,
-    note:"La promesa central de Joule es acortar el camino entre «lo que quiero hacer» y «hecho», sin depender de conocer la ruta exacta en el sistema." },
 ];
 
 const SESSION_LENGTH = 10;
+const RANKING_MODULES = ["ALL","FI","MM","SD","HR"];
 
 const state = {
   currentModule: "ALL",
@@ -1364,12 +882,15 @@ const state = {
   queueIndex: 0,
   currentQ: null,
   startTime: null,
+  rankingModule: "ALL",
+  scoreSaved: false,
 };
 
 const els = {
   landingView: document.getElementById('landingView'),
   landingModules: document.getElementById('landingModules'),
   startBtn: document.getElementById('startBtn'),
+  viewRankingBtn: document.getElementById('viewRankingBtn'),
   tcodeBar: document.getElementById('tcodeBar'),
   cardFooter: document.getElementById('cardFooter'),
   tcodeId: document.getElementById('tcodeId'),
@@ -1397,6 +918,15 @@ const els = {
   statTime: document.getElementById('statTime'),
   replayBtn: document.getElementById('replayBtn'),
   changeModuleBtn: document.getElementById('changeModuleBtn'),
+  viewRankingFromResultsBtn: document.getElementById('viewRankingFromResultsBtn'),
+  saveScoreBlock: document.getElementById('saveScoreBlock'),
+  playerNameInput: document.getElementById('playerNameInput'),
+  saveScoreBtn: document.getElementById('saveScoreBtn'),
+  saveStatus: document.getElementById('saveStatus'),
+  rankingView: document.getElementById('rankingView'),
+  rankingModules: document.getElementById('rankingModules'),
+  rankingContent: document.getElementById('rankingContent'),
+  rankingBackBtn: document.getElementById('rankingBackBtn'),
 };
 
 function filteredPool(){
@@ -1411,17 +941,6 @@ function shuffle(arr){
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
-}
-
-function shuffleOptions(q){
-  // Reordena las opciones de una pregunta y recoloca el índice de la correcta,
-  // para que la respuesta correcta no caiga siempre en A/B.
-  const order = shuffle([0, 1, 2, 3]);
-  return {
-    ...q,
-    options: order.map(i => q.options[i]),
-    correct: order.indexOf(q.correct),
-  };
 }
 
 function currentRunningStreak(){
@@ -1445,12 +964,20 @@ function bestStreakSoFar(){
   return best;
 }
 
-function showLanding(){
-  els.landingView.style.display = 'block';
+// Oculta las cuatro vistas del cuerpo de la tarjeta y la barra/footer tipo SAP GUI.
+// Cada showXxx() llama a esto primero y luego enciende solo lo que necesita.
+function hideAllViews(){
+  els.landingView.style.display = 'none';
   els.questionView.style.display = 'none';
   els.resultsView.style.display = 'none';
+  els.rankingView.style.display = 'none';
   els.tcodeBar.style.display = 'none';
   els.cardFooter.style.display = 'none';
+}
+
+function showLanding(){
+  hideAllViews();
+  els.landingView.style.display = 'block';
 }
 
 function formatElapsed(ms){
@@ -1462,14 +989,14 @@ function formatElapsed(ms){
 
 function startSession(){
   const pool = shuffle(filteredPool());
-  state.queue = pool.slice(0, Math.min(SESSION_LENGTH, pool.length)).map(shuffleOptions);
+  state.queue = pool.slice(0, Math.min(SESSION_LENGTH, pool.length));
   state.answers = new Array(state.queue.length).fill(null);
   state.queueIndex = 0;
   state.startTime = Date.now();
+  state.scoreSaved = false;
 
   els.streakLabel.textContent = `RACHA · 0`;
-  els.landingView.style.display = 'none';
-  els.resultsView.style.display = 'none';
+  hideAllViews();
   els.questionView.style.display = 'block';
   els.tcodeBar.style.display = 'flex';
   els.cardFooter.style.display = 'flex';
@@ -1486,7 +1013,7 @@ function renderQuestion(){
   state.currentQ = q;
   const savedAnswer = state.answers[idx];
 
-  const moduleCode = { FI:"F", MM:"M", SD:"S", HR:"H", BTP:"T", BW:"B", PM:"P", QM:"Q", WM:"W", ABAP:"A", FIORI:"I", JOULE:"J" }[q.module];
+  const moduleCode = { FI:"F", MM:"M", SD:"S", HR:"H" }[q.module];
   els.tcodeId.textContent = `SAPTRV-${moduleCode}${String(idx + 1).padStart(3,'0')}`;
   els.progressText.textContent = `· ${idx + 1}/${state.queue.length}`;
   els.modTag.textContent = q.module;
@@ -1563,6 +1090,12 @@ function showResults(){
   const best = bestStreakSoFar();
   const elapsedMs = state.startTime ? Date.now() - state.startTime : 0;
 
+  // Guardamos estos tres datos aparte porque el ranking los necesita
+  // sin volver a recalcular nada cuando el jugador pulsa "Enviar al ranking".
+  state.lastCorrect = correctCount;
+  state.lastTotal = total;
+  state.lastElapsedSeconds = Math.max(0, Math.round(elapsedMs / 1000));
+
   els.scoreRing.style.setProperty('--pct', pct);
   els.scoreRingValue.innerHTML = `${pct}%<small>acierto</small>`;
   els.statCorrect.textContent = correctCount;
@@ -1579,19 +1112,168 @@ function showResults(){
   els.resultsModTag.textContent = state.currentModule === 'ALL' ? 'Todos' : state.currentModule;
   els.resultsModTag.className = `mod-tag results-mod-tag ${state.currentModule}`;
 
-  els.questionView.style.display = 'none';
+  hideAllViews();
   els.resultsView.style.display = 'block';
+  els.tcodeBar.style.display = 'flex';
+  els.cardFooter.style.display = 'flex';
   els.nextBtn.style.display = 'none';
   els.prevBtn.style.display = 'none';
   els.downloadBtn.style.display = 'inline-flex';
   els.statusDot.className = 'status-dot';
   els.progressText.textContent = '· resultado';
+
+  // Reset del bloque de envío al ranking para esta nueva sesión
+  state.scoreSaved = false;
+  els.saveScoreBlock.style.display = 'block';
+  els.saveStatus.textContent = '';
+  els.saveStatus.className = 'save-status';
+  els.saveScoreBtn.disabled = false;
+  els.saveScoreBtn.textContent = 'Enviar al ranking';
 }
 
 function setActiveLandingPill(mod){
   Array.from(els.landingModules.children).forEach(p => {
     p.classList.toggle('active', p.dataset.mod === mod);
   });
+}
+
+function setActiveRankingPill(mod){
+  Array.from(els.rankingModules.children).forEach(p => {
+    p.classList.toggle('active', p.dataset.mod === mod);
+  });
+}
+
+// ---------- Ranking (Cloudflare Worker + D1) ----------
+
+function scoreFor(correct, total, elapsedSeconds){
+  // Los aciertos mandan (1000 puntos cada uno), la rapidez solo desempata:
+  // hasta 600 puntos de bonus si respondes en 0s, 0 de bonus a partir de 10 minutos.
+  return correct * 1000 + Math.max(0, 600 - elapsedSeconds);
+}
+
+function showRankingView(mod){
+  hideAllViews();
+  els.rankingView.style.display = 'block';
+  state.rankingModule = mod || state.rankingModule || 'ALL';
+  setActiveRankingPill(state.rankingModule);
+  fetchRanking(state.rankingModule);
+}
+
+function fetchRanking(mod){
+  els.rankingContent.innerHTML = '<p class="ranking-loading">Cargando ranking…</p>';
+
+  if(!RANKING_API || RANKING_API.includes('TU-SUBDOMINIO')){
+    els.rankingContent.innerHTML = '<p class="ranking-error">El ranking todavía no está conectado (falta configurar la URL del Worker en RANKING_API).</p>';
+    return;
+  }
+
+  const url = `${RANKING_API}?modulo=${encodeURIComponent(mod)}&limit=10`;
+  fetch(url)
+    .then(res => {
+      if(!res.ok) throw new Error('http_' + res.status);
+      return res.json();
+    })
+    .then(data => {
+      if(!data || data.ok === false) throw new Error(data && data.error || 'respuesta inválida');
+      renderRankingRows(data.ranking || []);
+    })
+    .catch(err => {
+      console.error('Error al cargar el ranking:', err);
+      els.rankingContent.innerHTML = '<p class="ranking-error">No se ha podido cargar el ranking. Inténtalo de nuevo en unos segundos.</p>';
+    });
+}
+
+function renderRankingRows(rows){
+  if(!rows.length){
+    els.rankingContent.innerHTML = '<p class="ranking-empty">Todavía no hay puntuaciones en este módulo. ¡Sé el primero!</p>';
+    return;
+  }
+  const body = rows.map((r, i) => `
+    <tr>
+      <td class="ranking-pos">${i + 1}</td>
+      <td>${escapeHtml(r.nombre || 'Anónimo')}</td>
+      <td>${r.aciertos}/${r.total}</td>
+      <td>${formatElapsed((r.tiempo_seg || 0) * 1000)}</td>
+      <td class="ranking-points">${r.puntos}</td>
+    </tr>
+  `).join('');
+  els.rankingContent.innerHTML = `
+    <table class="ranking-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Aciertos</th>
+          <th>Tiempo</th>
+          <th>Puntos</th>
+        </tr>
+      </thead>
+      <tbody>${body}</tbody>
+    </table>
+  `;
+}
+
+function escapeHtml(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function submitScore(){
+  if(state.scoreSaved) return;
+  if(!state.lastTotal){ return; }
+
+  let nombre = els.playerNameInput.value.trim();
+  if(!nombre){
+    els.saveStatus.textContent = 'Escribe un nombre o alias antes de enviar.';
+    els.saveStatus.className = 'save-status err';
+    els.playerNameInput.focus();
+    return;
+  }
+  nombre = nombre.slice(0, 24);
+
+  if(!RANKING_API || RANKING_API.includes('TU-SUBDOMINIO')){
+    els.saveStatus.textContent = 'El ranking todavía no está conectado (falta configurar la URL del Worker).';
+    els.saveStatus.className = 'save-status err';
+    return;
+  }
+
+  els.saveScoreBtn.disabled = true;
+  els.saveScoreBtn.textContent = 'Enviando…';
+  els.saveStatus.textContent = '';
+  els.saveStatus.className = 'save-status';
+
+  const payload = {
+    nombre,
+    modulo: state.currentModule,
+    aciertos: state.lastCorrect,
+    total: state.lastTotal,
+    tiempo_seg: state.lastElapsedSeconds,
+  };
+
+  fetch(RANKING_API, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  })
+    .then(res => {
+      if(!res.ok) throw new Error('http_' + res.status);
+      return res.json();
+    })
+    .then(data => {
+      if(!data || data.ok === false) throw new Error(data && data.error || 'respuesta inválida');
+      state.scoreSaved = true;
+      els.saveScoreBtn.textContent = '✓ Enviado';
+      els.saveStatus.textContent = `Puntuación registrada: ${data.puntos} puntos.`;
+      els.saveStatus.className = 'save-status ok';
+    })
+    .catch(err => {
+      console.error('Error al enviar la puntuación:', err);
+      els.saveScoreBtn.disabled = false;
+      els.saveScoreBtn.textContent = 'Enviar al ranking';
+      els.saveStatus.textContent = 'No se ha podido enviar la puntuación. Inténtalo de nuevo.';
+      els.saveStatus.className = 'save-status err';
+    });
 }
 
 els.landingModules.addEventListener('click', (e) => {
@@ -1601,7 +1283,19 @@ els.landingModules.addEventListener('click', (e) => {
   setActiveLandingPill(state.currentModule);
 });
 
+els.rankingModules.addEventListener('click', (e) => {
+  const btn = e.target.closest('.pill');
+  if(!btn) return;
+  state.rankingModule = btn.dataset.mod;
+  setActiveRankingPill(state.rankingModule);
+  fetchRanking(state.rankingModule);
+});
+
 els.startBtn.addEventListener('click', startSession);
+els.viewRankingBtn.addEventListener('click', () => showRankingView(state.currentModule));
+els.viewRankingFromResultsBtn.addEventListener('click', () => showRankingView(state.currentModule));
+els.rankingBackBtn.addEventListener('click', showLanding);
+els.saveScoreBtn.addEventListener('click', submitScore);
 
 els.prevBtn.addEventListener('click', () => {
   if(state.queueIndex === 0) return;
