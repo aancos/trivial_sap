@@ -1,6 +1,6 @@
 # Trivial SAP
 
-Tarjetas tipo test sobre SAP (FI · MM · SD · HR) — sesión de 10 preguntas aleatorias con navegación adelante/atrás, racha, resultado final, ranking global por módulo y exportación de tarjeta como imagen para LinkedIn.
+Tarjetas tipo test sobre SAP (FI · MM · SD · HR · BTP · BW · PM · QM · WM · ABAP · Fiori · Joule) — sesión de 10 preguntas aleatorias con navegación adelante/atrás, racha, resultado final, ranking global por módulo y exportación de tarjeta como imagen para LinkedIn.
 
 Estética: fusión entre la barra de estado clásica de SAP GUI (cabecera de la tarjeta) y un cuerpo de tarjeta moderno estilo Fiori.
 
@@ -20,7 +20,7 @@ Requiere haber desplegado el Worker una vez (ver `DEPLOY.md`) y haber sustituido
 3. La app quedará disponible en `https://aancos.github.io/trivial_sap/`.
 
 ## Banco de preguntas
-20 preguntas por módulo (80 en total), en `index.html`, dentro del array `QUESTIONS`. Para añadir más, sigue el mismo formato:
+260 preguntas (20 por módulo, 40 en HR), en `index.html`, dentro del array `QUESTIONS`. Para añadir más, sigue el mismo formato:
 
 ```js
 { module:"FI", q:"Pregunta...",
